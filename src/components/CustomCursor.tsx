@@ -10,26 +10,34 @@ export default function CustomCursor() {
   const { mode } = useIdentityMode();
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+    let animFrameId: number;
 
-      const target = e.target as HTMLElement;
-      if (
-        target &&
-        (target.tagName === "BUTTON" ||
-          target.tagName === "A" ||
-          target.closest("button") ||
-          target.closest("a") ||
-          target.classList.contains("interactive"))
-      ) {
-        setIsHovered(true);
-      } else {
-        setIsHovered(false);
-      }
+    const handleMouseMove = (e: MouseEvent) => {
+      cancelAnimationFrame(animFrameId);
+      animFrameId = requestAnimationFrame(() => {
+        setMousePosition({ x: e.clientX, y: e.clientY });
+
+        const target = e.target as HTMLElement;
+        if (
+          target &&
+          (target.tagName === "BUTTON" ||
+            target.tagName === "A" ||
+            target.closest("button") ||
+            target.closest("a") ||
+            target.classList.contains("interactive"))
+        ) {
+          setIsHovered(true);
+        } else {
+          setIsHovered(false);
+        }
+      });
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    return () => {
+      cancelAnimationFrame(animFrameId);
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
   }, []);
 
   const getCursorStyles = () => {
@@ -61,7 +69,7 @@ export default function CustomCursor() {
     <>
       {/* Small Trailing Dot */}
       <motion.div
-        className={`fixed top-0 left-0 w-2.5 h-2.5 rounded-full pointer-events-none z-50 ${currentStyle.dotColor} shadow-lg`}
+        className={`fixed top-0 left-0 w-2.5 h-2.5 rounded-full pointer-events-none z-50 ${currentStyle.dotColor} shadow-lg hidden sm:block`}
         animate={{
           x: mousePosition.x - 5,
           y: mousePosition.y - 5,
@@ -72,7 +80,7 @@ export default function CustomCursor() {
 
       {/* Mode Outer Ring */}
       <motion.div
-        className={`fixed top-0 left-0 rounded-full border pointer-events-none z-50 backdrop-blur-[1px] transition-all duration-300 ${currentStyle.ringBorder}`}
+        className={`fixed top-0 left-0 rounded-full border pointer-events-none z-50 backdrop-blur-[1px] transition-all duration-300 ${currentStyle.ringBorder} hidden sm:block`}
         animate={{
           x: mousePosition.x - (isHovered ? 28 : 18),
           y: mousePosition.y - (isHovered ? 28 : 18),
