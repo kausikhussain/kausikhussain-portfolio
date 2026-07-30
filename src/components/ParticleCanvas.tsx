@@ -26,38 +26,35 @@ export default function ParticleCanvas() {
 
     window.addEventListener("resize", handleResize);
 
-    // AI Mode: Micro Nodes (Subtle, elegant)
-    const aiParticles = Array.from({ length: 45 }, () => ({
+    // AI Mode: Micro Nodes (Quiet, static precision)
+    const aiParticles = Array.from({ length: 30 }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: (Math.random() - 0.5) * 0.3,
-      radius: Math.random() * 1.2 + 0.8,
-      color: "rgba(56, 189, 248, 0.4)"
+      vx: (Math.random() - 0.5) * 0.15,
+      vy: (Math.random() - 0.5) * 0.15,
+      radius: Math.random() * 1.0 + 0.5,
+      color: "rgba(56, 189, 248, 0.25)"
     }));
 
-    // Creative Mode: Gentle Ambient Gradient Orbs
-    const creativeBlobs = Array.from({ length: 4 }, (_, i) => ({
+    // Creative Mode: Quiet Ambient Gradient Halo
+    const creativeBlobs = Array.from({ length: 3 }, (_, i) => ({
       x: Math.random() * width,
       y: Math.random() * height,
-      vx: (Math.random() - 0.5) * 0.2,
-      vy: (Math.random() - 0.5) * 0.2,
-      radius: Math.random() * 250 + 150,
+      vx: (Math.random() - 0.5) * 0.1,
+      vy: (Math.random() - 0.5) * 0.1,
+      radius: Math.random() * 200 + 150,
       color: [
-        "rgba(192, 132, 252, 0.08)",
-        "rgba(244, 114, 182, 0.06)",
-        "rgba(129, 140, 248, 0.07)",
-        "rgba(56, 189, 248, 0.06)"
-      ][i % 4]
+        "rgba(192, 132, 252, 0.05)",
+        "rgba(244, 114, 182, 0.04)",
+        "rgba(129, 140, 248, 0.04)"
+      ][i % 3]
     }));
-
-    let scanY = 0;
 
     const render = () => {
       ctx.clearRect(0, 0, width, height);
 
       if (mode === "ai") {
-        // --- AI MODE: Quiet Neural Network ---
+        // Quiet Studio Neural Particles
         aiParticles.forEach((p, i) => {
           p.x += p.vx;
           p.y += p.vy;
@@ -75,18 +72,18 @@ export default function ParticleCanvas() {
           for (let j = i + 1; j < aiParticles.length; j++) {
             const p2 = aiParticles[j];
             const distance = Math.hypot(p.x - p2.x, p.y - p2.y);
-            if (distance < 110) {
+            if (distance < 90) {
               ctx.beginPath();
               ctx.moveTo(p.x, p.y);
               ctx.lineTo(p2.x, p2.y);
-              ctx.strokeStyle = `rgba(56, 189, 248, ${0.15 * (1 - distance / 110)})`;
-              ctx.lineWidth = 0.6;
+              ctx.strokeStyle = `rgba(56, 189, 248, ${0.08 * (1 - distance / 90)})`;
+              ctx.lineWidth = 0.5;
               ctx.stroke();
             }
           }
         });
       } else if (mode === "creative") {
-        // --- CREATIVE MODE: Soft Ambient Halos ---
+        // Editorial Ambient Lighting
         creativeBlobs.forEach((b) => {
           b.x += b.vx;
           b.y += b.vy;
@@ -106,9 +103,9 @@ export default function ParticleCanvas() {
           ctx.fill();
         });
       } else if (mode === "engineering") {
-        // --- ENGINEERING MODE: Clean Technical Blueprint ---
+        // Clean Architectural Grid
         const gridSize = 60;
-        ctx.strokeStyle = "rgba(52, 211, 153, 0.04)";
+        ctx.strokeStyle = "rgba(52, 211, 153, 0.025)";
         ctx.lineWidth = 1;
 
         for (let x = 0; x < width; x += gridSize) {
@@ -123,15 +120,6 @@ export default function ParticleCanvas() {
           ctx.lineTo(width, y);
           ctx.stroke();
         }
-
-        scanY = (scanY + 0.8) % height;
-        const laserGrad = ctx.createLinearGradient(0, scanY - 20, 0, scanY + 20);
-        laserGrad.addColorStop(0, "transparent");
-        laserGrad.addColorStop(0.5, "rgba(52, 211, 153, 0.08)");
-        laserGrad.addColorStop(1, "transparent");
-
-        ctx.fillStyle = laserGrad;
-        ctx.fillRect(0, scanY - 20, width, 40);
       }
 
       animationFrameId = requestAnimationFrame(render);
@@ -148,7 +136,7 @@ export default function ParticleCanvas() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-0 opacity-70 transition-opacity duration-700"
+      className="fixed inset-0 pointer-events-none z-0 opacity-60 transition-opacity duration-700"
     />
   );
 }
