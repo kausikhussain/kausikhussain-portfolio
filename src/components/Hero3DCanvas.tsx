@@ -2,16 +2,17 @@
 
 import React, { useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, OrbitControls, MeshWobbleMaterial } from "@react-three/drei";
+import { Float, OrbitControls, MeshWobbleMaterial, Sparkles as R3FSparkles } from "@react-three/drei";
 import * as THREE from "three";
 import { useIdentityMode } from "./IdentityModeContext";
 
 function ModeAdaptedCore() {
   const meshRef = useRef<THREE.Mesh>(null!);
   const outerWireframeRef = useRef<THREE.Mesh>(null!);
+  const torusRef = useRef<THREE.Mesh>(null!);
   const { mode } = useIdentityMode();
 
-  useFrame((_, delta) => {
+  useFrame((state, delta) => {
     if (meshRef.current) {
       meshRef.current.rotation.x += delta * 0.4;
       meshRef.current.rotation.y += delta * 0.5;
@@ -20,16 +21,19 @@ function ModeAdaptedCore() {
       outerWireframeRef.current.rotation.x -= delta * 0.2;
       outerWireframeRef.current.rotation.y -= delta * 0.3;
     }
+    if (torusRef.current) {
+      torusRef.current.rotation.z += delta * 0.3;
+    }
   });
 
   const getColors = () => {
     switch (mode) {
       case "ai":
-        return { wire: "#06b6d4", inner: "#3b82f6", light: "#06b6d4" };
+        return { wire: "#06b6d4", inner: "#3b82f6", light: "#06b6d4", particle: "#60a5fa" };
       case "creative":
-        return { wire: "#a855f7", inner: "#ec4899", light: "#f97316" };
+        return { wire: "#a855f7", inner: "#ec4899", light: "#f97316", particle: "#f472b6" };
       case "engineering":
-        return { wire: "#10b981", inner: "#14b8a6", light: "#10b981" };
+        return { wire: "#10b981", inner: "#14b8a6", light: "#10b981", particle: "#34d399" };
     }
   };
 
@@ -37,22 +41,37 @@ function ModeAdaptedCore() {
 
   return (
     <group>
-      <ambientLight intensity={0.6} />
-      <pointLight position={[10, 10, 10]} intensity={1.5} color={colors.light} />
-      <pointLight position={[-10, -10, -10]} intensity={0.8} color="#ffffff" />
+      <ambientLight intensity={0.7} />
+      <pointLight position={[10, 10, 10]} intensity={1.8} color={colors.light} />
+      <pointLight position={[-10, -10, -10]} intensity={1.0} color="#818cf8" />
+
+      {/* Floating 3D Sparkle Particles */}
+      <R3FSparkles count={40} scale={8} size={2.5} speed={0.4} color={colors.particle} />
 
       {/* Floating Polyhedral Core */}
-      <Float speed={2.5} rotationIntensity={1.2} floatIntensity={1.5}>
-        {/* Inner Solid Core */}
+      <Float speed={2.5} rotationIntensity={1.4} floatIntensity={1.6}>
+        {/* Inner Solid Octahedron */}
         <mesh ref={meshRef} scale={1.6}>
           <octahedronGeometry args={[1, 0]} />
           <MeshWobbleMaterial
             color={colors.inner}
-            factor={0.4}
-            speed={2}
-            roughness={0.2}
-            metalness={0.8}
+            factor={0.45}
+            speed={2.2}
+            roughness={0.15}
+            metalness={0.85}
             wireframe={false}
+          />
+        </mesh>
+
+        {/* Outer Orbital Ring */}
+        <mesh ref={torusRef} scale={2.8} rotation={[Math.PI / 3, 0, 0]}>
+          <torusGeometry args={[1, 0.02, 16, 100]} />
+          <meshStandardMaterial
+            color={colors.wire}
+            emissive={colors.wire}
+            emissiveIntensity={0.8}
+            transparent
+            opacity={0.7}
           />
         </mesh>
 
@@ -63,9 +82,9 @@ function ModeAdaptedCore() {
             color={colors.wire}
             wireframe
             transparent
-            opacity={0.6}
+            opacity={0.5}
             emissive={colors.wire}
-            emissiveIntensity={0.5}
+            emissiveIntensity={0.4}
           />
         </mesh>
       </Float>
@@ -82,7 +101,7 @@ export default function Hero3DCanvas() {
         gl={{ antialias: true, alpha: true }}
       >
         <ModeAdaptedCore />
-        <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={1.5} />
+        <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={1.8} />
       </Canvas>
     </div>
   );
