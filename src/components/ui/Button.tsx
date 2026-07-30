@@ -27,29 +27,29 @@ export const Button: React.FC<ButtonProps> = ({
 }) => {
   const sizeStyles = {
     sm: "px-4 py-2 text-xs rounded-xl gap-1.5",
-    md: "px-6 py-3 text-sm rounded-xl gap-2",
-    lg: "px-8 py-3.5 text-base rounded-xl gap-2.5",
+    md: "px-6 py-3 text-sm rounded-2xl gap-2",
+    lg: "px-8 py-4 text-base rounded-2xl gap-2.5",
   };
 
   const variantStyles = {
     primary:
-      "bg-white text-black font-semibold shadow-md hover:bg-slate-200 border border-white/80 transition-all",
+      "bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 text-white font-semibold shadow-[0_0_25px_rgba(99,102,241,0.4)] hover:shadow-[0_0_35px_rgba(168,85,247,0.6)] border border-indigo-400/30",
     secondary:
-      "bg-white/10 hover:bg-white/15 border border-white/15 text-white font-medium backdrop-blur-md transition-all",
+      "bg-slate-900/80 hover:bg-slate-800 border border-slate-700/80 text-slate-200 font-semibold backdrop-blur-md hover:border-indigo-500/50",
     outline:
-      "bg-transparent border border-white/20 text-slate-300 hover:text-white hover:border-white/40 transition-all",
+      "bg-transparent border border-white/20 text-slate-200 hover:text-white hover:border-white/50 backdrop-blur-sm",
     ghost:
-      "bg-transparent text-slate-400 hover:text-white hover:bg-white/5 transition-all",
+      "bg-transparent text-slate-400 hover:text-white hover:bg-white/5",
     glow:
-      "bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 font-mono transition-all",
+      "bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 shadow-[0_0_20px_rgba(6,182,212,0.3)] font-mono",
   };
 
   return (
     <motion.button
-      whileHover={{ scale: 1.02 }}
+      whileHover={{ scale: 1.03 }}
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
-      className={`inline-flex items-center justify-center transition-all duration-200 cursor-pointer ${
+      className={`inline-flex items-center justify-center font-medium transition-all duration-200 cursor-pointer ${
         sizeStyles[size]
       } ${variantStyles[variant]} ${fullWidth ? "w-full" : ""} ${className}`}
       {...props}

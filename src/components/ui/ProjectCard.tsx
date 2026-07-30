@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { ArrowUpRight, ExternalLink, Award } from "lucide-react";
+import { ArrowUpRight, ExternalLink, Award, Sparkles } from "lucide-react";
 import Card from "./Card";
 import Tag from "./Tag";
 import Button from "./Button";
