@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Brain, Sparkles, Cpu, Layers } from "lucide-react";
+import { Brain, Sparkles, Cpu, Terminal } from "lucide-react";
 
 export default function LoadingScreen({ onComplete }: { onComplete: () => void }) {
   const [progress, setProgress] = useState(0);
@@ -12,16 +12,23 @@ export default function LoadingScreen({ onComplete }: { onComplete: () => void }
 
   const fullName = "KAUSIK";
   const titles = [
-    "AI & Machine Learning Engineer",
-    "Full Stack Architect",
-    "Creative 3D Frontend Specialist",
-    "Building Intelligent Digital Experiences"
+    "AI & Machine Learning Specialist",
+    "Full Stack Architect • SIH '25 Finalist",
+    "3D WebGL & Interactive Web Engineer",
+    "Building Next-Gen Intelligent Experiences"
+  ];
+
+  const logMessages = [
+    "[1/4] INITIALIZING QUANTUM CANVAS...",
+    "[2/4] CONNECTING SIH '25 WEBSOCKET MESH...",
+    "[3/4] MOUNTING THREE.JS SHADERS...",
+    "[4/4] WELCOME TO KAUSIK'S PORTFOLIO"
   ];
 
   useEffect(() => {
     // 0% -> 100% Progress Timer
-    const duration = 4000;
-    const intervalTime = 40;
+    const duration = 3800;
+    const intervalTime = 35;
     const increment = 100 / (duration / intervalTime);
 
     const timer = setInterval(() => {
@@ -33,31 +40,31 @@ export default function LoadingScreen({ onComplete }: { onComplete: () => void }
         }
 
         // Stage Transitions
-        if (next >= 20 && next < 60) setStage(2);
-        else if (next >= 60 && next < 92) setStage(3);
-        else if (next >= 92) setStage(4);
+        if (next >= 20 && next < 55) setStage(2);
+        else if (next >= 55 && next < 90) setStage(3);
+        else if (next >= 90) setStage(4);
 
         return next;
       });
     }, intervalTime);
 
-    // Sequential Letter Assembly Timer in Stage 2 (K -> KA -> KAU -> KAUS -> KAUSIK)
+    // Sequential Letter Assembly Timer in Stage 2
     const letterTimer = setInterval(() => {
       setAssembledLetterCount((prev) => {
         if (prev < fullName.length) return prev + 1;
         return prev;
       });
-    }, 320);
+    }, 280);
 
     // Title morphing timer in Stage 3
     const titleInterval = setInterval(() => {
       setActiveTitleIndex((prev) => (prev + 1) % titles.length);
-    }, 800);
+    }, 750);
 
     // Completion trigger
     const completeTimer = setTimeout(() => {
       onComplete();
-    }, 4400);
+    }, 4100);
 
     return () => {
       clearInterval(timer);
@@ -66,6 +73,8 @@ export default function LoadingScreen({ onComplete }: { onComplete: () => void }
       clearTimeout(completeTimer);
     };
   }, [onComplete]);
+
+  const currentLogIndex = Math.min(Math.floor((progress / 100) * logMessages.length), logMessages.length - 1);
 
   return (
     <motion.div
@@ -116,7 +125,7 @@ export default function LoadingScreen({ onComplete }: { onComplete: () => void }
           </motion.div>
         )}
 
-        {/* Stage 2 & Beyond: Cinematic Letter Assembly (K -> KA -> KAU -> KAUS -> KAUSIK) */}
+        {/* Stage 2 & Beyond: Cinematic Letter Assembly */}
         {stage >= 2 && (
           <motion.div
             initial={{ opacity: 0, y: 15 }}
@@ -170,8 +179,14 @@ export default function LoadingScreen({ onComplete }: { onComplete: () => void }
           </motion.div>
         )}
 
+        {/* Live Step Log Banner */}
+        <div className="text-[10px] text-indigo-400 font-mono mb-4 flex items-center gap-1.5">
+          <Terminal className="w-3.5 h-3.5 text-cyan-400" />
+          <span>{logMessages[currentLogIndex]}</span>
+        </div>
+
         {/* Progress Bar & Telemetry Counter */}
-        <div className="w-full max-w-xs mt-4">
+        <div className="w-full max-w-xs">
           <div className="flex items-center justify-between text-[11px] text-slate-400 font-mono mb-2">
             <span className="flex items-center gap-1.5">
               <Cpu className="w-3.5 h-3.5 text-indigo-400" />
