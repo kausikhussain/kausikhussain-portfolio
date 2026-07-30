@@ -2,14 +2,12 @@
 
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Download, Brain, Layers, ShieldCheck, Award, Zap, GraduationCap } from "lucide-react";
+import { ArrowRight, Mail, Brain, Layers, ShieldCheck } from "lucide-react";
 import Hero3DCanvas from "./Hero3DCanvas";
 import { PORTFOLIO_DATA } from "@/data/portfolioData";
-import { useToast } from "./ToastSystem";
 
 export default function HeroSection() {
   const [headlineIndex, setHeadlineIndex] = useState(0);
-  const { showToast } = useToast();
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -18,18 +16,18 @@ export default function HeroSection() {
     return () => clearInterval(timer);
   }, []);
 
-  const handleResumeClick = () => {
-    showToast("Downloading Sk Kausik Hussain's Resume PDF...", "info");
-  };
-
   return (
-    <section className="relative min-h-screen pt-32 pb-20 flex flex-col justify-center overflow-hidden bg-radial-glow border-b border-white/10">
-      {/* Ambient Grid Overlay */}
-      <div className="absolute inset-0 ambient-grid opacity-30 pointer-events-none" />
+    <section className="relative min-h-screen pt-36 pb-24 flex flex-col justify-center overflow-hidden bg-radial-glow border-b border-white/10">
+      {/* Full-Bleed Interactive 3D Studio Canvas Backdrop */}
+      <Hero3DCanvas />
 
+      {/* Ambient Grid Overlay */}
+      <div className="absolute inset-0 ambient-grid opacity-20 pointer-events-none" />
+
+      {/* Content Container (Layered Foreground) */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        {/* Left Column: Text & CTAs */}
-        <div className="lg:col-span-7 flex flex-col items-start">
+        {/* Left Column: Keynote Typography & Essential CTAs */}
+        <div className="lg:col-span-7 flex flex-col items-start pointer-events-auto">
           {/* Availability Status Badge */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -41,7 +39,7 @@ export default function HeroSection() {
             <span>{PORTFOLIO_DATA.personal.availability}</span>
           </motion.div>
 
-          {/* Main Title */}
+          {/* Main Keynote Title */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -76,7 +74,7 @@ export default function HeroSection() {
             Smart India Hackathon 2025 Finalist & Full-Stack Architect building real-time WebRTC/Socket.IO platforms, AI telemedicine systems, and 3D web experiences.
           </motion.p>
 
-          {/* Action CTAs */}
+          {/* Action CTAs — Clean & High Contrast */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -85,29 +83,18 @@ export default function HeroSection() {
           >
             <a
               href="#projects"
-              className="px-7 py-3.5 rounded-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 text-white font-semibold text-sm shadow-[0_0_35px_rgba(99,102,241,0.5)] hover:shadow-[0_0_45px_rgba(168,85,247,0.7)] hover:scale-105 transition-all flex items-center justify-center gap-2 group"
+              className="px-7 py-3.5 rounded-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 text-white font-semibold text-sm shadow-[0_0_35px_rgba(99,102,241,0.5)] hover:shadow-[0_0_45px_rgba(168,85,247,0.7)] hover:scale-105 transition-all flex items-center justify-center gap-2 group cursor-pointer"
             >
               <span>Explore Projects</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </a>
 
             <a
-              href="#ai-lab"
-              className="px-7 py-3.5 rounded-2xl bg-slate-900/80 hover:bg-slate-800 border border-slate-700/80 text-slate-200 font-semibold text-sm backdrop-blur-md hover:border-indigo-500/50 transition-all flex items-center justify-center gap-2 group"
+              href="#contact"
+              className="px-7 py-3.5 rounded-2xl bg-slate-900/80 hover:bg-slate-800 border border-slate-700/80 text-slate-200 font-semibold text-sm backdrop-blur-md hover:border-indigo-500/50 transition-all flex items-center justify-center gap-2 group cursor-pointer"
             >
-              <Brain className="w-4 h-4 text-purple-400" />
-              <span>AI Research Lab</span>
-            </a>
-
-            <a
-              href={PORTFOLIO_DATA.personal.resumeUrl}
-              onClick={handleResumeClick}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3.5 rounded-2xl bg-slate-900/60 hover:bg-slate-800/80 border border-slate-800 text-slate-300 hover:text-white transition-all flex items-center justify-center"
-              title="Download Kausik's Resume PDF"
-            >
-              <Download className="w-5 h-5 text-indigo-400" />
+              <Mail className="w-4 h-4 text-cyan-300" />
+              <span>Get In Touch</span>
             </a>
           </motion.div>
 
@@ -122,7 +109,7 @@ export default function HeroSection() {
               <Brain className="w-4 h-4 text-indigo-400" /> AI / ML PyTorch
             </span>
             <span className="flex items-center gap-2 text-purple-300">
-              <Layers className="w-4 h-4 text-purple-400" /> Three.js & Next.js 14
+              <Layers className="w-4 h-4 text-purple-400" /> Three.js & Next.js 16
             </span>
             <span className="flex items-center gap-2 text-cyan-300">
               <ShieldCheck className="w-4 h-4 text-cyan-400" /> Socket.IO & WebRTC
@@ -130,45 +117,8 @@ export default function HeroSection() {
           </motion.div>
         </div>
 
-        {/* Right Column: Interactive 3D Canvas + Floating Telemetry Badges */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, delay: 0.2 }}
-          className="lg:col-span-5 relative"
-        >
-          <Hero3DCanvas />
-
-          {/* Floating UI Callout Card 1: SIH '25 Finalist */}
-          <motion.div
-            animate={{ y: [0, -8, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -top-4 -left-4 sm:-left-8 p-3.5 rounded-2xl glass-panel shadow-2xl border border-amber-500/30 flex items-center gap-3"
-          >
-            <div className="w-8 h-8 rounded-xl bg-amber-500/20 flex items-center justify-center text-amber-400">
-              <Award className="w-4 h-4" />
-            </div>
-            <div>
-              <span className="text-[10px] font-mono text-slate-400 block uppercase">National Honor</span>
-              <span className="text-xs font-bold text-white font-mono">SIH 2025 Finalist</span>
-            </div>
-          </motion.div>
-
-          {/* Floating UI Callout Card 2: Sub-200ms Real-Time Sync */}
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-            className="absolute -bottom-4 -right-4 sm:-right-6 p-3.5 rounded-2xl glass-panel shadow-2xl border border-cyan-500/30 flex items-center gap-3"
-          >
-            <div className="w-8 h-8 rounded-xl bg-cyan-500/20 flex items-center justify-center text-cyan-400">
-              <Zap className="w-4 h-4" />
-            </div>
-            <div>
-              <span className="text-[10px] font-mono text-slate-400 block uppercase">Real-Time Sync</span>
-              <span className="text-xs font-bold text-cyan-300 font-mono">sub-200ms Latency</span>
-            </div>
-          </motion.div>
-        </motion.div>
+        {/* Right Column: Spanned by full-bleed background 3D canvas */}
+        <div className="lg:col-span-5 pointer-events-none" />
       </div>
 
       {/* Scroll Down Indicator */}
