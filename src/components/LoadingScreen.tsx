@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, Terminal, Cpu } from "lucide-react";
+import { Sparkles, Cpu } from "lucide-react";
 
 export default function LoadingScreen({ onComplete }: { onComplete: () => void }) {
   const [progress, setProgress] = useState(0);
@@ -18,6 +18,12 @@ export default function LoadingScreen({ onComplete }: { onComplete: () => void }
   ];
 
   useEffect(() => {
+    // Lock scroll and reset to top while loader is visible
+    if (typeof window !== "undefined") {
+      document.body.style.overflow = "hidden";
+      window.scrollTo(0, 0);
+    }
+
     const duration = 3900;
     const intervalTime = 30;
     const increment = 100 / (duration / intervalTime);
@@ -47,6 +53,10 @@ export default function LoadingScreen({ onComplete }: { onComplete: () => void }
     }, 800);
 
     const completeTimer = setTimeout(() => {
+      if (typeof window !== "undefined") {
+        document.body.style.overflow = "unset";
+        window.scrollTo(0, 0);
+      }
       onComplete();
     }, 4200);
 
@@ -55,6 +65,9 @@ export default function LoadingScreen({ onComplete }: { onComplete: () => void }
       clearInterval(letterTimer);
       clearInterval(titleTimer);
       clearTimeout(completeTimer);
+      if (typeof window !== "undefined") {
+        document.body.style.overflow = "unset";
+      }
     };
   }, [onComplete]);
 

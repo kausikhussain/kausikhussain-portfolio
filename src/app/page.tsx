@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import LoadingScreen from "@/components/LoadingScreen";
 import CustomCursor from "@/components/CustomCursor";
 import ParticleCanvas from "@/components/ParticleCanvas";
@@ -21,12 +21,29 @@ import Footer from "@/components/Footer";
 export default function Home() {
   const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    // Disable browser automatic scroll restoration & reset to top immediately
+    if (typeof window !== "undefined") {
+      if ("scrollRestoration" in window.history) {
+        window.history.scrollRestoration = "manual";
+      }
+      window.scrollTo(0, 0);
+    }
+  }, []);
+
+  const handleLoadingComplete = () => {
+    setLoading(false);
+    if (typeof window !== "undefined") {
+      window.scrollTo(0, 0);
+    }
+  };
+
   return (
     <IdentityModeProvider>
       <ToastProvider>
         <main className="relative min-h-screen bg-[#030308] text-white selection:bg-indigo-500/30 selection:text-white transition-colors duration-700">
           {/* Cinematic Loading Entrance */}
-          {loading && <LoadingScreen onComplete={() => setLoading(false)} />}
+          {loading && <LoadingScreen onComplete={handleLoadingComplete} />}
 
           {/* Dynamic Mode-Adapted Custom Cursor */}
           <CustomCursor />
