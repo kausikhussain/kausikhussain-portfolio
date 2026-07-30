@@ -2,14 +2,16 @@
 
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Mail, Menu, X, Brain, Palette, Wrench } from "lucide-react";
+import { Mail, Menu, X, Brain, Palette, Wrench, Volume2, VolumeX } from "lucide-react";
 import { useIdentityMode, IdentityMode } from "./IdentityModeContext";
 import ModeButton from "./ui/ModeButton";
+import audioSystem from "@/utils/audioSystem";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [muted, setMuted] = useState(false);
   const { mode, setMode } = useIdentityMode();
 
   const navItems = [
@@ -47,6 +49,19 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const handleToggleAudio = () => {
+    const isMutedNow = audioSystem.toggleMute();
+    setMuted(isMutedNow);
+    if (!isMutedNow) {
+      audioSystem.playClick(1000);
+    }
+  };
+
+  const handleModeChange = (newMode: IdentityMode) => {
+    audioSystem.playModeSwitch();
+    setMode(newMode);
+  };
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
@@ -61,8 +76,13 @@ export default function Navbar() {
               : "bg-transparent border border-transparent"
           }`}
         >
-          {/* Brand Name Typography Mark (No Generic Monogram Logo) */}
-          <a href="#" className="flex items-center gap-2.5 group">
+          {/* Brand Name Typography Mark */}
+          <a
+            href="#"
+            onMouseEnter={() => audioSystem.playHover()}
+            onClick={() => audioSystem.playClick()}
+            className="flex items-center gap-2.5 group"
+          >
             <div className="flex flex-col">
               <span className="text-sm font-extrabold tracking-widest text-white uppercase group-hover:text-cyan-300 transition-colors font-mono">
                 KAUSIK HUSSAIN
@@ -81,6 +101,8 @@ export default function Navbar() {
                 <a
                   key={item.label}
                   href={item.href}
+                  onMouseEnter={() => audioSystem.playHover()}
+                  onClick={() => audioSystem.playClick()}
                   className={`relative px-4 py-1.5 rounded-full text-xs font-mono transition-all duration-300 ${
                     isActive ? "text-white font-bold" : "text-slate-400 hover:text-slate-200"
                   }`}
@@ -98,8 +120,17 @@ export default function Navbar() {
             })}
           </nav>
 
-          {/* Identity Mode Switcher & Action CTA */}
-          <div className="hidden sm:flex items-center gap-2">
+          {/* Identity Mode Switcher, Audio Toggle & Action CTA */}
+          <div className="hidden sm:flex items-center gap-3">
+            {/* Mute/Unmute Audio Toggle */}
+            <button
+              onClick={handleToggleAudio}
+              className="p-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 hover:text-white transition-all cursor-pointer"
+              title={muted ? "Unmute Studio Sound" : "Mute Studio Sound"}
+            >
+              {muted ? <VolumeX className="w-4 h-4 text-slate-500" /> : <Volume2 className="w-4 h-4 text-cyan-400" />}
+            </button>
+
             <div className="flex items-center gap-1 bg-white/[0.04] p-1 rounded-full border border-white/[0.08]">
               {modes.map((m) => (
                 <ModeButton
@@ -109,14 +140,16 @@ export default function Navbar() {
                   label={m.label}
                   icon={m.icon}
                   activeColor={m.color}
-                  onClick={(newMode) => setMode(newMode)}
+                  onClick={handleModeChange}
                 />
               ))}
             </div>
 
             <a
               href="#contact"
-              className="ml-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-mono text-xs backdrop-blur-md transition-all flex items-center gap-2 shadow-sm"
+              onMouseEnter={() => audioSystem.playHover()}
+              onClick={() => audioSystem.playClick()}
+              className="ml-1 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-mono text-xs backdrop-blur-md transition-all flex items-center gap-2 shadow-sm"
             >
               <Mail className="w-3.5 h-3.5 text-cyan-300" />
               <span>Contact</span>
@@ -125,6 +158,12 @@ export default function Navbar() {
 
           {/* Mobile Menu Button */}
           <div className="flex sm:hidden items-center gap-2">
+            <button
+              onClick={handleToggleAudio}
+              className="p-2 rounded-full bg-white/5 border border-white/10 text-slate-300"
+            >
+              {muted ? <VolumeX className="w-4 h-4 text-slate-500" /> : <Volume2 className="w-4 h-4 text-cyan-400" />}
+            </button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2 rounded-xl bg-white/5 border border-white/10 text-white"
@@ -154,7 +193,7 @@ export default function Navbar() {
                   label={m.label}
                   icon={m.icon}
                   activeColor={m.color}
-                  onClick={(newMode) => setMode(newMode)}
+                  onClick={handleModeChange}
                 />
               ))}
             </div>
@@ -164,7 +203,10 @@ export default function Navbar() {
             <a
               key={item.label}
               href={item.href}
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={() => {
+                audioSystem.playClick();
+                setMobileMenuOpen(false);
+              }}
               className="block text-sm font-mono text-slate-300 hover:text-white py-2 border-b border-white/5"
             >
               {item.label}
