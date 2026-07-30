@@ -48,7 +48,7 @@ export default function AILabSection() {
   return (
     <Section id="ai-lab" withGlow={true}>
       <Heading
-        badge="AI & ML RESEARCH LAB"
+        badge="04 / AI RESEARCH LAB"
         badgeIcon={<Brain className="w-3.5 h-3.5" />}
         title="Intelligent"
         gradientText="Systems & Research"
@@ -70,9 +70,7 @@ export default function AILabSection() {
           >
             <Card
               className={`h-full border transition-all ${
-                selectedTopic === idx
-                  ? "border-indigo-400 bg-indigo-950/30 shadow-[0_0_30px_rgba(99,102,241,0.25)] scale-[1.02]"
-                  : ""
+                selectedTopic === idx ? "border-indigo-400/60 bg-indigo-950/20 shadow-lg scale-[1.01]" : ""
               }`}
               hoverGlow={true}
             >
@@ -86,9 +84,9 @@ export default function AILabSection() {
               <p className="text-slate-400 text-xs sm:text-sm leading-relaxed mb-6">{topic.description}</p>
 
               {/* Metrics */}
-              <div className="grid grid-cols-2 gap-3 pt-4 border-t border-white/10">
+              <div className="grid grid-cols-2 gap-3 pt-4 border-t border-white/[0.08]">
                 {topic.metrics.map((m) => (
-                  <div key={m.label} className="bg-slate-900/60 p-2.5 rounded-xl border border-white/5 text-center">
+                  <div key={m.label} className="bg-white/[0.02] p-2.5 rounded-xl border border-white/[0.05] text-center">
                     <span className="text-xs font-mono text-slate-400 block">{m.label}</span>
                     <span className="text-sm font-extrabold text-cyan-300 font-mono">{m.value}</span>
                   </div>
@@ -102,11 +100,11 @@ export default function AILabSection() {
       {/* Interactive AI Prompt Simulator */}
       <Card className="p-6 sm:p-10" hoverGlow={false}>
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-purple-400">
+          <div className="w-9 h-9 rounded-xl bg-white/[0.05] border border-white/[0.1] flex items-center justify-center text-slate-300">
             <Terminal className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="text-lg font-bold text-white">Interactive AI Vector Simulator</h3>
+            <h3 className="text-base font-bold text-white">Interactive AI Vector Simulator</h3>
             <p className="text-xs text-slate-400 font-mono">Test Kausik's project AI inference live in browser</p>
           </div>
         </div>
@@ -120,7 +118,7 @@ export default function AILabSection() {
                 setPromptInput(preset);
                 handleSimulate(preset);
               }}
-              className="text-xs font-mono px-3 py-1.5 rounded-lg bg-slate-900/80 border border-white/10 text-slate-300 hover:text-white hover:border-purple-500/40 transition-all text-left cursor-pointer"
+              className="text-xs font-mono px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.08] text-slate-300 hover:text-white hover:border-white/20 transition-all text-left cursor-pointer"
             >
               &gt; {preset}
             </button>
@@ -141,7 +139,7 @@ export default function AILabSection() {
             disabled={simulating}
             variant="primary"
             size="md"
-            icon={simulating ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4 fill-white" />}
+            icon={simulating ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4 fill-black" />}
             className="font-mono text-xs"
           >
             {simulating ? "PROCESSING VECTOR..." : "RUN AI INFERENCE"}
@@ -153,7 +151,7 @@ export default function AILabSection() {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="p-5 rounded-2xl bg-slate-950 border border-cyan-500/30 text-cyan-300 font-mono text-xs sm:text-sm leading-relaxed whitespace-pre-wrap shadow-inner"
+            className="p-5 rounded-xl bg-slate-950 border border-white/10 text-slate-300 font-mono text-xs sm:text-sm leading-relaxed whitespace-pre-wrap shadow-inner"
           >
             {aiOutput}
           </motion.div>

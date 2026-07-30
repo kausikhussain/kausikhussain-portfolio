@@ -13,7 +13,7 @@ export default function TechnicalToolkit() {
   return (
     <Section id="skills" withGrid={true}>
       <Heading
-        badge="AUTHENTIC TECHNICAL MATRIX"
+        badge="02 / TECHNICAL MATRIX"
         badgeIcon={<Wrench className="w-3.5 h-3.5" />}
         title="Technical"
         gradientText="Toolkit"
@@ -32,8 +32,8 @@ export default function TechnicalToolkit() {
             className="h-full"
           >
             <Card className="h-full" hoverGlow={true}>
-              <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/10">
-                <div className="w-10 h-10 rounded-xl bg-slate-900 border border-white/10 flex items-center justify-center font-mono text-sm text-indigo-400 font-bold group-hover:scale-110 transition-transform">
+              <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/[0.08]">
+                <div className="w-9 h-9 rounded-xl bg-white/[0.05] border border-white/[0.1] flex items-center justify-center font-mono text-xs text-slate-300 font-bold">
                   {group.iconSymbol}
                 </div>
                 <h3 className="text-xs font-mono font-bold tracking-widest text-slate-300 uppercase">
@@ -48,7 +48,7 @@ export default function TechnicalToolkit() {
                     label={item}
                     variant="mono"
                     size="sm"
-                    className="hover:border-indigo-500/50 hover:text-white"
+                    className="hover:border-white/30 hover:text-white"
                   />
                 ))}
               </div>

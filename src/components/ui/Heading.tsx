@@ -29,14 +29,14 @@ export const Heading: React.FC<HeadingProps> = ({
   };
 
   return (
-    <div className={`flex flex-col mb-14 sm:mb-18 ${alignClasses[align]} ${className}`}>
+    <div className={`flex flex-col mb-12 sm:mb-16 ${alignClasses[align]} ${className}`}>
       {badge && (
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4 }}
-          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-950/50 border border-indigo-500/30 text-indigo-300 text-xs font-mono mb-4 backdrop-blur-md"
+          className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.05] border border-white/[0.1] text-slate-400 text-xs font-mono mb-4"
         >
           {badgeIcon && <span className="shrink-0">{badgeIcon}</span>}
           <span>{badge}</span>
@@ -44,7 +44,7 @@ export const Heading: React.FC<HeadingProps> = ({
       )}
 
       <motion.h2
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 15 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5, delay: 0.1 }}
@@ -58,11 +58,11 @@ export const Heading: React.FC<HeadingProps> = ({
 
       {subtitle && (
         <motion.p
-          initial={{ opacity: 0, y: 15 }}
+          initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="mt-4 text-slate-400 text-base sm:text-lg max-w-2xl leading-relaxed"
+          className="mt-4 text-slate-400 text-sm sm:text-base max-w-xl leading-relaxed"
         >
           {subtitle}
         </motion.p>

@@ -48,7 +48,7 @@ export default function ContactSection() {
   return (
     <Section id="contact" withGlow={true}>
       <Heading
-        badge="INITIATE COLLABORATION"
+        badge="06 / INITIATE COLLABORATION"
         badgeIcon={<Mail className="w-3.5 h-3.5" />}
         title="Let's Build Something"
         gradientText="Extraordinary"
@@ -67,8 +67,8 @@ export default function ContactSection() {
           {/* Email Card */}
           <Card hoverGlow={true}>
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 rounded-2xl bg-indigo-500/20 border border-indigo-500/40 flex items-center justify-center text-indigo-400">
-                <Mail className="w-6 h-6" />
+              <div className="w-10 h-10 rounded-xl bg-white/[0.05] border border-white/[0.1] flex items-center justify-center text-slate-300">
+                <Mail className="w-5 h-5" />
               </div>
               <Button
                 variant="outline"
@@ -81,14 +81,14 @@ export default function ContactSection() {
             </div>
 
             <h3 className="text-xs font-mono text-slate-400 uppercase tracking-wider mb-1">Direct Email</h3>
-            <p className="text-sm sm:text-base font-bold text-white font-mono">{PORTFOLIO_DATA.personal.contact.email}</p>
+            <p className="text-sm font-bold text-white font-mono">{PORTFOLIO_DATA.personal.contact.email}</p>
           </Card>
 
           {/* Location & Status */}
           <Card hoverGlow={true}>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400">
-                <MapPin className="w-5 h-5" />
+              <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                <MapPin className="w-4 h-4" />
               </div>
               <div>
                 <h4 className="text-xs font-mono text-slate-400 uppercase">Location</h4>
@@ -108,13 +108,13 @@ export default function ContactSection() {
               rel="noopener noreferrer"
               className="block"
             >
-              <Card className="p-5 flex items-center gap-3 group hover:border-indigo-400/50" hoverGlow={false}>
-                <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center text-slate-300 group-hover:text-white">
-                  <GithubIcon className="w-5 h-5" />
+              <Card className="p-4 flex items-center gap-3 group hover:border-white/30" hoverGlow={false}>
+                <div className="w-9 h-9 rounded-xl bg-white/[0.05] flex items-center justify-center text-slate-300 group-hover:text-white">
+                  <GithubIcon className="w-4 h-4" />
                 </div>
                 <div>
                   <span className="text-xs font-mono text-slate-400 block">GitHub</span>
-                  <span className="text-xs font-bold text-white group-hover:text-indigo-300">@kausikhussain</span>
+                  <span className="text-xs font-bold text-white group-hover:text-slate-200">@kausikhussain</span>
                 </div>
               </Card>
             </a>
@@ -125,13 +125,13 @@ export default function ContactSection() {
               rel="noopener noreferrer"
               className="block"
             >
-              <Card className="p-5 flex items-center gap-3 group hover:border-indigo-400/50" hoverGlow={false}>
-                <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center text-blue-400 group-hover:text-blue-300">
-                  <LinkedinIcon className="w-5 h-5" />
+              <Card className="p-4 flex items-center gap-3 group hover:border-white/30" hoverGlow={false}>
+                <div className="w-9 h-9 rounded-xl bg-white/[0.05] flex items-center justify-center text-blue-400 group-hover:text-blue-300">
+                  <LinkedinIcon className="w-4 h-4" />
                 </div>
                 <div>
                   <span className="text-xs font-mono text-slate-400 block">LinkedIn</span>
-                  <span className="text-xs font-bold text-white group-hover:text-indigo-300">Sk Kausik Hussain</span>
+                  <span className="text-xs font-bold text-white group-hover:text-slate-200">Sk Kausik Hussain</span>
                 </div>
               </Card>
             </a>
@@ -148,11 +148,11 @@ export default function ContactSection() {
           <Card className="p-8 sm:p-10" hoverGlow={false}>
             {submitted ? (
               <div className="py-12 flex flex-col items-center text-center">
-                <div className="w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 mb-6">
-                  <Check className="w-8 h-8" />
+                <div className="w-14 h-14 rounded-full bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-6">
+                  <Check className="w-7 h-7" />
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-2">Transmission Received!</h3>
-                <p className="text-slate-400 text-sm max-w-md mb-6">
+                <h3 className="text-xl font-bold text-white mb-2">Transmission Received!</h3>
+                <p className="text-slate-400 text-xs sm:text-sm max-w-md mb-6">
                   Thank you for reaching out. I have received your message and will respond within 24 hours.
                 </p>
                 <Button variant="secondary" size="sm" onClick={() => setSubmitted(false)}>

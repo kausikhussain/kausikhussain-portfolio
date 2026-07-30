@@ -1,43 +1,39 @@
 @import "tailwindcss";
 
 :root {
-  --bg-primary: #050505;
-  --text-gradient: linear-gradient(135deg, #00d9ff 0%, #38f9ff 50%, #eafbff 100%);
-  --accent-glow: rgba(0, 217, 255, 0.25);
-  --border-card: rgba(0, 217, 255, 0.2);
-  --pill-bg: rgba(0, 217, 255, 0.15);
-  --primary-color: #00d9ff;
-  --card-bg: rgba(10, 11, 20, 0.75);
+  --bg-primary: #040408;
+  --text-gradient: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #94a3b8 100%);
+  --accent-glow: rgba(56, 189, 248, 0.15);
+  --border-card: rgba(255, 255, 255, 0.08);
+  --primary-color: #38bdf8;
+  --card-bg: rgba(10, 10, 18, 0.6);
 }
 
 [data-identity-mode="ai"] {
-  --bg-primary: #050505;
-  --text-gradient: linear-gradient(135deg, #00d9ff 0%, #38f9ff 50%, #eafbff 100%);
-  --accent-glow: rgba(0, 217, 255, 0.3);
-  --border-card: rgba(0, 217, 255, 0.25);
-  --pill-bg: rgba(0, 217, 255, 0.15);
-  --primary-color: #00d9ff;
-  --card-bg: rgba(5, 12, 24, 0.8);
+  --bg-primary: #040408;
+  --text-gradient: linear-gradient(135deg, #ffffff 0%, #38bdf8 60%, #818cf8 100%);
+  --accent-glow: rgba(56, 189, 248, 0.18);
+  --border-card: rgba(56, 189, 248, 0.15);
+  --primary-color: #38bdf8;
+  --card-bg: rgba(8, 12, 22, 0.65);
 }
 
 [data-identity-mode="creative"] {
-  --bg-primary: #0b0d1e;
-  --text-gradient: linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #fbbf24 100%);
-  --accent-glow: rgba(168, 85, 247, 0.35);
-  --border-card: rgba(168, 85, 247, 0.25);
-  --pill-bg: rgba(168, 85, 247, 0.15);
-  --primary-color: #a855f7;
-  --card-bg: rgba(15, 13, 37, 0.75);
+  --bg-primary: #070614;
+  --text-gradient: linear-gradient(135deg, #ffffff 0%, #c084fc 60%, #f472b6 100%);
+  --accent-glow: rgba(192, 132, 252, 0.18);
+  --border-card: rgba(192, 132, 252, 0.15);
+  --primary-color: #c084fc;
+  --card-bg: rgba(13, 10, 26, 0.65);
 }
 
 [data-identity-mode="engineering"] {
-  --bg-primary: #090a0f;
-  --text-gradient: linear-gradient(135deg, #10b981 0%, #34d399 50%, #cbd5e1 100%);
-  --accent-glow: rgba(16, 185, 129, 0.28);
-  --border-card: rgba(16, 185, 129, 0.25);
-  --pill-bg: rgba(16, 185, 129, 0.15);
-  --primary-color: #10b981;
-  --card-bg: rgba(13, 17, 23, 0.85);
+  --bg-primary: #05070a;
+  --text-gradient: linear-gradient(135deg, #ffffff 0%, #34d399 60%, #38bdf8 100%);
+  --accent-glow: rgba(52, 211, 153, 0.18);
+  --border-card: rgba(52, 211, 153, 0.15);
+  --primary-color: #34d399;
+  --card-bg: rgba(9, 14, 18, 0.7);
 }
 
 body {
@@ -48,7 +44,7 @@ body {
   transition: background-color 0.8s cubic-bezier(0.16, 1, 0.3, 1), color 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Gradient Text Utilities */
+/* Linear & Apple-grade Typography */
 .text-gradient-purple {
   background: var(--text-gradient);
   -webkit-background-clip: text;
@@ -56,70 +52,50 @@ body {
   transition: background 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Mode Glass Cards */
+/* Refined Glass Cards */
 .glass-card {
   background: var(--card-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border: 1px solid var(--border-card);
-  transition: border-color 0.5s ease, background-color 0.5s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  transition: border-color 0.4s ease, background-color 0.4s ease, transform 0.3s ease, box-shadow 0.4s ease;
 }
 
 .glass-card:hover {
-  border-color: rgba(255, 255, 255, 0.3);
-  box-shadow: 0 14px 40px -10px var(--accent-glow);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 20px 40px -15px var(--accent-glow);
 }
 
 .glass-panel {
-  background: rgba(15, 17, 32, 0.7);
+  background: rgba(10, 10, 18, 0.7);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--border-card);
 }
 
-/* AI Holographic Scanlines Overlay */
-[data-identity-mode="ai"] .scanline-overlay {
-  background: linear-gradient(
-    to bottom,
-    rgba(255,255,255,0),
-    rgba(255,255,255,0) 50%,
-    rgba(0, 217, 255, 0.04) 50%,
-    rgba(0, 217, 255, 0.04)
-  );
-  background-size: 100% 4px;
-}
-
-/* Engineering Blueprint Grid Overlay */
-[data-identity-mode="engineering"] .ambient-grid {
-  background-size: 50px 50px;
-  background-image: 
-    linear-gradient(to right, rgba(16, 185, 129, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(16, 185, 129, 0.05) 1px, transparent 1px);
-}
-
 .ambient-grid {
-  background-size: 40px 40px;
+  background-size: 60px 60px;
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
 }
 
 .bg-radial-glow {
-  background-image: radial-gradient(circle at 50% 20%, var(--accent-glow) 0%, transparent 70%);
+  background-image: radial-gradient(circle at 50% 15%, var(--accent-glow) 0%, transparent 65%);
   transition: background-image 0.8s ease;
 }
 
-/* Custom Scrollbar */
+/* Custom Minimal Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #030308;
+  background: #040408;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1e1b4b;
-  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #3730a3;
+  background: rgba(255, 255, 255, 0.3);
 }

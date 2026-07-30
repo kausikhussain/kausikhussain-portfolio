@@ -42,7 +42,7 @@ export default function AboutSection() {
     <Section id="about" withGrid={true}>
       {/* Section Header */}
       <Heading
-        badge="AUTHENTIC PROFILE & STORY"
+        badge="01 / ABOUT"
         badgeIcon={<User className="w-3.5 h-3.5" />}
         title="Building at the intersection of"
         gradientText="AI, design & full-stack code"
@@ -62,12 +62,12 @@ export default function AboutSection() {
           <Card hoverGlow={true}>
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-2xl bg-indigo-600/20 border border-indigo-500/40 flex items-center justify-center text-indigo-400">
-                  <Brain className="w-6 h-6" />
+                <div className="w-10 h-10 rounded-xl bg-white/[0.05] border border-white/[0.1] flex items-center justify-center text-slate-300">
+                  <Brain className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-white">{PORTFOLIO_DATA.personal.name}</h3>
-                  <p className="text-xs font-mono text-indigo-400">SIH 2025 Finalist • CSE @ Silicon Institute</p>
+                  <h3 className="text-base font-bold text-white">{PORTFOLIO_DATA.personal.name}</h3>
+                  <p className="text-xs font-mono text-slate-400">SIH 2025 Finalist • CSE @ Silicon Institute</p>
                 </div>
               </div>
               <Tag label="Open to Roles" variant="glow" size="sm" />
@@ -80,21 +80,21 @@ export default function AboutSection() {
             </div>
 
             {/* Core Philosophy Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-white/10">
-              <div className="p-4 rounded-2xl bg-slate-950/60 border border-white/5">
-                <Cpu className="w-5 h-5 text-indigo-400 mb-2" />
-                <h4 className="text-xs font-bold text-white mb-1">AI-First Architecture</h4>
-                <p className="text-[11px] text-slate-400 leading-snug">Integrating ML models & LLM pipelines into clean web apps.</p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-white/[0.08]">
+              <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.05]">
+                <Cpu className="w-4 h-4 text-slate-300 mb-2" />
+                <h4 className="text-xs font-bold text-white mb-1">AI Architecture</h4>
+                <p className="text-[11px] text-slate-400 leading-snug">Integrating ML models into production web apps.</p>
               </div>
-              <div className="p-4 rounded-2xl bg-slate-950/60 border border-white/5">
-                <Code2 className="w-5 h-5 text-purple-400 mb-2" />
+              <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.05]">
+                <Code2 className="w-4 h-4 text-slate-300 mb-2" />
                 <h4 className="text-xs font-bold text-white mb-1">Real-Time Sync</h4>
-                <p className="text-[11px] text-slate-400 leading-snug">Sub-200ms WebRTC & Socket.IO data synchronization.</p>
+                <p className="text-[11px] text-slate-400 leading-snug">Sub-200ms WebRTC & Socket.IO synchronization.</p>
               </div>
-              <div className="p-4 rounded-2xl bg-slate-950/60 border border-white/5">
-                <Sparkles className="w-5 h-5 text-cyan-400 mb-2" />
-                <h4 className="text-xs font-bold text-white mb-1">3D Motion UI</h4>
-                <p className="text-[11px] text-slate-400 leading-snug">Awwwards-grade Framer Motion, GSAP, and Three.js scenes.</p>
+              <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.05]">
+                <Sparkles className="w-4 h-4 text-slate-300 mb-2" />
+                <h4 className="text-xs font-bold text-white mb-1">Motion Design</h4>
+                <p className="text-[11px] text-slate-400 leading-snug">Smooth, purposeful Framer Motion & Three.js scenes.</p>
               </div>
             </div>
           </Card>
@@ -110,7 +110,7 @@ export default function AboutSection() {
           {/* 1. Currently Exploring Card */}
           <Card hoverGlow={true}>
             <div className="flex items-center gap-2 mb-4">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               <h3 className="text-xs font-mono uppercase tracking-widest text-slate-400">CURRENTLY EXPLORING</h3>
             </div>
 
@@ -125,13 +125,13 @@ export default function AboutSection() {
           <Card hoverGlow={true}>
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-indigo-400 animate-pulse" />
+                <span className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse" />
                 <h3 className="text-xs font-mono uppercase tracking-widest text-slate-400">CURRENTLY BUILDING</h3>
               </div>
               <Tag label={PORTFOLIO_DATA.currentlyBuilding.statusLabel} variant="glow" size="sm" />
             </div>
 
-            <h4 className="text-lg font-bold text-white group-hover:text-indigo-300 transition-colors mb-2">
+            <h4 className="text-base font-bold text-white group-hover:text-indigo-300 transition-colors mb-2">
               {PORTFOLIO_DATA.currentlyBuilding.title}
             </h4>
             <p className="text-xs text-slate-300 leading-relaxed mb-4">
@@ -145,18 +145,18 @@ export default function AboutSection() {
             </div>
           </Card>
 
-          {/* 3. GitHub Activity & Profile Stats Card */}
+          {/* 3. GitHub Telemetry Stats Card */}
           <Card hoverGlow={true}>
-            <div className="flex items-center justify-between mb-4 pb-3 border-b border-white/10">
+            <div className="flex items-center justify-between mb-4 pb-3 border-b border-white/[0.08]">
               <div className="flex items-center gap-2">
-                <GitCommit className="w-4 h-4 text-indigo-400" />
+                <GitCommit className="w-4 h-4 text-slate-400" />
                 <h4 className="text-xs font-mono uppercase tracking-widest text-slate-400">GITHUB TELEMETRY</h4>
               </div>
               <a
                 href={PORTFOLIO_DATA.personal.contact.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs font-mono text-indigo-400 hover:text-indigo-300 flex items-center gap-1"
+                className="text-xs font-mono text-slate-300 hover:text-white flex items-center gap-1"
               >
                 <span>@kausikhussain</span>
                 <ArrowUpRight className="w-3.5 h-3.5" />
@@ -164,16 +164,16 @@ export default function AboutSection() {
             </div>
 
             <div className="grid grid-cols-3 gap-4 text-center py-2">
-              <div className="p-3 rounded-2xl bg-slate-950/60 border border-white/5">
+              <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.05]">
                 <span className="text-xl font-extrabold text-white block">{ghStats.public_repos}</span>
                 <span className="text-[10px] font-mono text-slate-400 uppercase">Repositories</span>
               </div>
-              <div className="p-3 rounded-2xl bg-slate-950/60 border border-white/5">
-                <span className="text-xl font-extrabold text-cyan-300 block">{ghStats.followers}</span>
+              <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.05]">
+                <span className="text-xl font-extrabold text-slate-200 block">{ghStats.followers}</span>
                 <span className="text-[10px] font-mono text-slate-400 uppercase">Followers</span>
               </div>
-              <div className="p-3 rounded-2xl bg-slate-950/60 border border-white/5">
-                <span className="text-xl font-extrabold text-purple-300 block">{ghStats.following}</span>
+              <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.05]">
+                <span className="text-xl font-extrabold text-slate-200 block">{ghStats.following}</span>
                 <span className="text-[10px] font-mono text-slate-400 uppercase">Following</span>
               </div>
             </div>

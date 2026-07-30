@@ -24,7 +24,7 @@ export default function ProjectsSection() {
     <Section id="projects" withGlow={true}>
       {/* Section Header */}
       <Heading
-        badge="FEATURED PRODUCT SHOWCASE"
+        badge="03 / PROJECTS"
         badgeIcon={<Layers className="w-3.5 h-3.5" />}
         title="Architected"
         gradientText="Products & Platforms"
@@ -33,15 +33,15 @@ export default function ProjectsSection() {
       />
 
       {/* Filter Tabs */}
-      <div className="flex flex-wrap items-center justify-center gap-3 mb-12 sm:mb-16">
+      <div className="flex flex-wrap items-center justify-center gap-2 mb-12 sm:mb-16">
         {filters.map((filter) => (
           <button
             key={filter}
             onClick={() => setActiveFilter(filter)}
-            className={`px-5 py-2.5 rounded-full text-xs font-semibold font-mono transition-all duration-300 cursor-pointer ${
+            className={`px-4 py-2 rounded-full text-xs font-mono transition-all duration-300 cursor-pointer ${
               activeFilter === filter
-                ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-[0_0_20px_rgba(99,102,241,0.4)] border border-indigo-400/40"
-                : "bg-slate-900/60 text-slate-400 border border-white/10 hover:text-white hover:border-white/30"
+                ? "bg-white text-black font-bold shadow-md"
+                : "bg-white/[0.05] text-slate-400 border border-white/[0.08] hover:text-white hover:border-white/20"
             }`}
           >
             {filter}
@@ -57,7 +57,7 @@ export default function ProjectsSection() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: idx * 0.1 }}
+            transition={{ delay: idx * 0.08 }}
             className="h-full"
           >
             <ProjectCard

@@ -13,7 +13,7 @@ export default function BlogsSection() {
   return (
     <Section id="blogs" withGrid={true}>
       <Heading
-        badge="WRITING & THOUGHTS"
+        badge="05.2 / WRITING & THOUGHTS"
         badgeIcon={<BookOpen className="w-3.5 h-3.5" />}
         title="Thoughts &"
         gradientText="Tutorials"
@@ -28,7 +28,7 @@ export default function BlogsSection() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: idx * 0.1 }}
+            transition={{ delay: idx * 0.08 }}
             className="h-full"
           >
             <Card className="flex flex-col justify-between h-full" hoverGlow={true}>
@@ -40,7 +40,7 @@ export default function BlogsSection() {
                   </span>
                 </div>
 
-                <h3 className="text-lg font-bold text-white group-hover:text-indigo-300 transition-colors mb-3 leading-snug">
+                <h3 className="text-base font-bold text-white group-hover:text-indigo-300 transition-colors mb-3 leading-snug">
                   {blog.title}
                 </h3>
 
@@ -49,7 +49,7 @@ export default function BlogsSection() {
                 </p>
               </div>
 
-              <div className="flex flex-wrap gap-2 pt-4 border-t border-white/10">
+              <div className="flex flex-wrap gap-2 pt-4 border-t border-white/[0.08]">
                 {blog.tags.map((tag, i) => (
                   <Tag key={i} label={tag} variant="mono" size="sm" />
                 ))}
