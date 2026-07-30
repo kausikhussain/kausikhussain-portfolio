@@ -2,12 +2,12 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Brain, Terminal as TerminalIcon, Sparkles, CornerDownLeft, Award, ExternalLink, Cpu, RefreshCw, ArrowRight, MessageSquare } from "lucide-react";
+import { Brain, Terminal as TerminalIcon, Sparkles, CornerDownLeft, Award, ExternalLink, Cpu, RefreshCw, ArrowRight, MessageSquare, Layers, ShieldCheck, Zap } from "lucide-react";
 import { PORTFOLIO_DATA } from "@/data/portfolioData";
 import { useIdentityMode } from "./IdentityModeContext";
 import audioSystem from "@/utils/audioSystem";
 import aiSemanticEngine, { SemanticResponse } from "@/utils/aiSemanticEngine";
-import { KnowledgeTopic } from "@/data/kausikKnowledgeBase";
+import { PROJECT_CASE_STUDIES } from "@/data/projectCaseStudies";
 import { GithubIcon } from "./SocialIcons";
 import Section from "./ui/Section";
 import Heading from "./ui/Heading";
@@ -24,32 +24,31 @@ export default function AILabSection() {
   const [selectedTopicIdx, setSelectedTopicIdx] = useState(0);
   const [cmdInput, setCmdInput] = useState("");
   const [historyIndex, setHistoryIndex] = useState(-1);
-  const [commandHistory, setCommandHistory] = useState<string[]>(["whoami", "sih 2025", "college"]);
+  const [commandHistory, setCommandHistory] = useState<string[]>(["jansehat", "iit bhubaneswar", "offline mode"]);
   const [isExecuting, setIsExecuting] = useState(false);
   const { setMode } = useIdentityMode();
   const outputEndRef = useRef<HTMLDivElement>(null);
 
-  const initialResponse = aiSemanticEngine.query("whoami");
+  const initialResponse = aiSemanticEngine.query("jansehat");
 
   const [streamEntries, setStreamEntries] = useState<StreamLogEntry[]>([
     {
       id: "init",
-      query: "whoami",
+      query: "jansehat",
       response: initialResponse
     }
   ]);
 
   const quickPrompts = [
-    "whoareyou",
-    "sih 2025",
-    "college",
-    "12th and 10th",
     "jansehat",
-    "tripsync",
+    "how does offline mode work?",
     "iit bhubaneswar",
-    "fitness",
-    "family business",
-    "contact"
+    "tripsync architecture",
+    "biggest challenge in victus",
+    "why hire kausik?",
+    "which project uses webrtc?",
+    "fitness journey",
+    "family business"
   ];
 
   useEffect(() => {
@@ -76,7 +75,6 @@ export default function AILabSection() {
       setIsExecuting(false);
       const res = aiSemanticEngine.query(query);
 
-      // Check mode switch command triggers
       const lower = query.toLowerCase();
       if (lower.includes("mode ai")) setMode("ai");
       else if (lower.includes("mode creative")) setMode("creative");
@@ -90,7 +88,7 @@ export default function AILabSection() {
           response: res
         }
       ]);
-    }, 450);
+    }, 400);
 
     setCmdInput("");
   };
@@ -122,23 +120,7 @@ export default function AILabSection() {
     }
   };
 
-  const activeTopic: KnowledgeTopic = PORTFOLIO_DATA.projects[selectedTopicIdx]
-    ? {
-        id: PORTFOLIO_DATA.projects[selectedTopicIdx].id,
-        keys: [PORTFOLIO_DATA.projects[selectedTopicIdx].id],
-        title: PORTFOLIO_DATA.projects[selectedTopicIdx].title,
-        category: "project",
-        summary: PORTFOLIO_DATA.projects[selectedTopicIdx].desc,
-        details: [
-          PORTFOLIO_DATA.projects[selectedTopicIdx].casestudy.problem,
-          PORTFOLIO_DATA.projects[selectedTopicIdx].casestudy.approach,
-          PORTFOLIO_DATA.projects[selectedTopicIdx].casestudy.outcome
-        ],
-        metrics: [{ label: "Metric", value: PORTFOLIO_DATA.projects[selectedTopicIdx].metric }],
-        tags: PORTFOLIO_DATA.projects[selectedTopicIdx].tags,
-        relatedQuestions: ["Tell me about SIH 2025", "Show all skills", "Contact Kausik"]
-      }
-    : streamEntries[streamEntries.length - 1]?.response.matchedTopic;
+  const activeCS = PROJECT_CASE_STUDIES[selectedTopicIdx] || PROJECT_CASE_STUDIES[0];
 
   return (
     <Section id="ai-lab" withGlow={true}>
@@ -159,7 +141,7 @@ export default function AILabSection() {
           <div className="flex items-center gap-3">
             <span className="flex items-center gap-2 font-bold text-white uppercase tracking-wider">
               <TerminalIcon className="w-4 h-4 text-cyan-400" />
-              KAUSIK_AI_ENGINE // v3.2 (SEMANTIC KNOWLEDGE BASE)
+              KAUSIK_AI_ENGINE // DEEP KNOWLEDGE BASE v3.2
             </span>
           </div>
 
@@ -176,12 +158,12 @@ export default function AILabSection() {
         </div>
 
         {/* Workspace 3-Column Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[480px]">
+        <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[520px]">
           {/* Left Sidebar: Quick Prompts */}
           <div className="lg:col-span-3 bg-black/40 border-r border-white/10 p-5 text-xs flex flex-col justify-between">
             <div>
               <span className="text-[10px] text-slate-400 uppercase tracking-widest block mb-4">
-                SUGGESTED AI PROMPTS
+                SAMPLE QUESTIONS
               </span>
               <div className="flex flex-col gap-2">
                 {quickPrompts.map((prompt) => (
@@ -190,24 +172,26 @@ export default function AILabSection() {
                     onClick={() => handleQuerySubmit(prompt)}
                     className="text-left px-3 py-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] text-slate-300 hover:text-white transition-all flex items-center justify-between group cursor-pointer"
                   >
-                    <span>&gt; {prompt}</span>
-                    <ArrowRight className="w-3 h-3 text-slate-500 group-hover:text-cyan-400 group-hover:translate-x-0.5 transition-all" />
+                    <span className="truncate">&gt; {prompt}</span>
+                    <ArrowRight className="w-3 h-3 text-slate-500 group-hover:text-cyan-400 group-hover:translate-x-0.5 transition-all shrink-0 ml-1" />
                   </button>
                 ))}
               </div>
             </div>
 
             <div className="pt-4 mt-6 border-t border-white/10 text-[11px] text-slate-500 space-y-1">
-              <p>Type in natural language (e.g. "What is your college CGPA?")</p>
+              <p>Type any natural question (e.g. "What was the biggest challenge in TripSync?")</p>
             </div>
           </div>
 
-          {/* Center Main Workspace: Semantic Response Stream */}
+          {/* Center Main Workspace: Deep Response Stream */}
           <div className="lg:col-span-6 p-6 text-xs flex flex-col justify-between bg-[#04040a]">
-            {/* Response Stream List */}
-            <div className="space-y-6 max-h-[400px] overflow-y-auto pr-2 scrollbar-thin">
+            {/* Stream Output List */}
+            <div className="space-y-6 max-h-[440px] overflow-y-auto pr-2 scrollbar-thin">
               {streamEntries.map((entry) => {
                 const topic = entry.response.matchedTopic;
+                const cs = entry.response.deepCaseStudy;
+
                 return (
                   <motion.div
                     key={entry.id}
@@ -227,9 +211,16 @@ export default function AILabSection() {
                         <p className="text-[11px] text-cyan-400 mb-2 italic">{entry.response.conversationalNote}</p>
                       )}
 
+                      {entry.response.interviewAnswer && (
+                        <div className="p-3.5 rounded-xl bg-cyan-950/40 border border-cyan-500/30 text-cyan-200 leading-relaxed font-mono text-xs mb-4">
+                          <span className="font-bold text-white block mb-1">⚡ Recruiter Interview Response:</span>
+                          {entry.response.interviewAnswer}
+                        </div>
+                      )}
+
                       <div className="flex items-center justify-between mb-3">
                         <Tag label={topic.category.toUpperCase()} variant="accent" size="sm" />
-                        {topic.id === "sih" && (
+                        {topic.id.includes("jansehat") && (
                           <span className="inline-flex items-center gap-1 text-[11px] text-amber-300 font-bold">
                             <Award className="w-3.5 h-3.5 text-amber-400" /> SIH '25 FINALIST
                           </span>
@@ -239,8 +230,35 @@ export default function AILabSection() {
                       <h4 className="text-base font-bold text-white mb-2">{topic.title}</h4>
                       <p className="text-xs text-slate-300 leading-relaxed mb-4">{topic.summary}</p>
 
-                      {/* Details Bullet List */}
-                      {topic.details && topic.details.length > 0 && (
+                      {/* Deep Case Study Breakdown (If Matched) */}
+                      {cs && (
+                        <div className="space-y-3 mb-4 bg-black/40 p-4 rounded-xl border border-white/10 text-[11px] leading-relaxed text-slate-300">
+                          <div>
+                            <span className="text-cyan-400 font-bold block mb-1">REAL-WORLD PROBLEM & MOTIVATION:</span>
+                            <p>{cs.problem} — {cs.motivation}</p>
+                          </div>
+
+                          {cs.architecture && (
+                            <div>
+                              <span className="text-purple-400 font-bold block mb-1">COMPLETE ARCHITECTURE STACK:</span>
+                              <p className="font-mono text-[10px] text-slate-400">
+                                Frontend: {cs.architecture.frontend.join(", ")} | Backend: {cs.architecture.backend.join(", ")} | DB: {cs.architecture.database.join(", ")}
+                              </p>
+                            </div>
+                          )}
+
+                          {cs.challengesAndSolutions && cs.challengesAndSolutions.length > 0 && (
+                            <div>
+                              <span className="text-amber-400 font-bold block mb-1">BIGGEST ENGINEERING CHALLENGE & SOLUTION:</span>
+                              <p>[Challenge]: {cs.challengesAndSolutions[0].challenge}</p>
+                              <p>[Solution]: {cs.challengesAndSolutions[0].solution}</p>
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      {/* Details Bullet List (Fallback for general topics) */}
+                      {!cs && topic.details && topic.details.length > 0 && (
                         <div className="space-y-2 mb-4 bg-black/40 p-3.5 rounded-xl border border-white/10 text-[11px] leading-relaxed text-slate-300">
                           {topic.details.map((detail, dIdx) => (
                             <p key={dIdx} className="flex items-start gap-2">
@@ -263,37 +281,30 @@ export default function AILabSection() {
                         </div>
                       )}
 
-                      {/* Tags & Action Links */}
-                      <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-white/10">
-                        {topic.tags && (
-                          <div className="flex flex-wrap gap-1.5">
-                            {topic.tags.map((t) => (
-                              <Tag key={t} label={t} variant="mono" size="sm" />
-                            ))}
-                          </div>
-                        )}
-
-                        {topic.links && (
-                          <div className="flex items-center gap-2">
-                            {topic.links.map((link) => (
-                              <a
-                                key={link.label}
-                                href={link.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="px-3 py-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40 text-cyan-300 text-[11px] font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
-                              >
-                                <span>{link.label}</span>
+                      {/* Action Links */}
+                      {(cs?.github || cs?.demo) && (
+                        <div className="flex items-center gap-2 mb-4 pt-2">
+                          {cs.github && (
+                            <a href={cs.github} target="_blank" rel="noopener noreferrer">
+                              <button className="px-3.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-[11px] font-bold flex items-center gap-1.5 cursor-pointer">
+                                <GithubIcon className="w-3.5 h-3.5" /> GitHub Code
+                              </button>
+                            </a>
+                          )}
+                          {cs.demo && (
+                            <a href={cs.demo} target="_blank" rel="noopener noreferrer">
+                              <button className="px-3.5 py-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40 text-cyan-300 text-[11px] font-bold flex items-center gap-1.5 cursor-pointer">
+                                <span>Live Demo</span>
                                 <ExternalLink className="w-3 h-3" />
-                              </a>
-                            ))}
-                          </div>
-                        )}
-                      </div>
+                              </button>
+                            </a>
+                          )}
+                        </div>
+                      )}
 
-                      {/* Dynamic Related Question Suggestion Chips */}
+                      {/* Dynamic Related Question Chips */}
                       {topic.relatedQuestions && topic.relatedQuestions.length > 0 && (
-                        <div className="mt-4 pt-3 border-t border-white/10">
+                        <div className="pt-3 border-t border-white/10">
                           <span className="text-[10px] text-slate-400 uppercase tracking-widest block mb-2 flex items-center gap-1">
                             <MessageSquare className="w-3 h-3 text-cyan-400" /> RELATED QUESTIONS
                           </span>
@@ -316,9 +327,9 @@ export default function AILabSection() {
               })}
 
               {isExecuting && (
-                <div className="flex items-center gap-2 text-cyan-400 text-xs">
+                <div className="flex items-center gap-2 text-cyan-400 text-xs font-mono">
                   <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                  <span>[SEARCHING KNOWLEDGE BASE...]</span>
+                  <span>[QUERYING PROJECT CASE STUDY KNOWLEDGE BASE...]</span>
                 </div>
               )}
 
@@ -333,7 +344,7 @@ export default function AILabSection() {
                 value={cmdInput}
                 onChange={(e) => setCmdInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Ask anything (e.g. 'IIT Bhubaneswar', '12th marks', 'JanSehat')..."
+                placeholder="Ask anything (e.g. 'IIT Bhubaneswar', 'How does JanSehat offline mode work?')..."
                 className="flex-1 px-4 py-2.5 rounded-xl bg-slate-950/80 border border-white/15 text-slate-200 text-xs font-mono focus:outline-none focus:border-cyan-500"
               />
               <button
@@ -346,25 +357,35 @@ export default function AILabSection() {
             </form>
           </div>
 
-          {/* Right Sidebar: Telemetry Inspector */}
+          {/* Right Sidebar: Deep Case Study Inspector */}
           <div className="lg:col-span-3 bg-black/40 border-l border-white/10 p-5 text-xs flex flex-col justify-between">
             <div>
               <span className="text-[10px] text-slate-400 uppercase tracking-widest block mb-4">
-                KNOWLEDGE INSPECTOR
+                CASE STUDY INSPECTOR
               </span>
 
               <Card className="p-4 bg-slate-950/80 border border-white/10 mb-4" hoverGlow={false}>
-                <span className="text-[10px] text-cyan-400 uppercase block mb-1">INSPECTED ENTITY</span>
-                <h4 className="text-sm font-bold text-white mb-2">{activeTopic.title}</h4>
-                <p className="text-[11px] text-slate-300 leading-relaxed line-clamp-4">{activeTopic.summary}</p>
+                <span className="text-[10px] text-cyan-400 uppercase block mb-1">PROJECT ARCHITECTURE</span>
+                <h4 className="text-sm font-bold text-white mb-1">{activeCS.title}</h4>
+                <p className="text-[11px] text-slate-400 mb-3">{activeCS.subtitle}</p>
+                <div className="space-y-2 text-[11px] text-slate-300">
+                  <div>
+                    <span className="text-slate-500 block">Metric:</span>
+                    <span className="text-cyan-300 font-bold">{activeCS.metric}</span>
+                  </div>
+                  <div>
+                    <span className="text-slate-500 block">Key Problem:</span>
+                    <span className="text-slate-300 line-clamp-3">{activeCS.problem}</span>
+                  </div>
+                </div>
               </Card>
 
               {/* Selector Tabs */}
               <div className="space-y-2">
                 <span className="text-[10px] text-slate-400 uppercase tracking-widest block mb-2">
-                  TOP PRODUCTS
+                  SELECT CASE STUDY
                 </span>
-                {PORTFOLIO_DATA.projects.map((p, idx) => (
+                {PROJECT_CASE_STUDIES.map((p, idx) => (
                   <button
                     key={p.id}
                     onClick={() => {
