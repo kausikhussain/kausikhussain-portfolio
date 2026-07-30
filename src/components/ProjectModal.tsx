@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ExternalLink, CheckCircle2, AlertTriangle, Lightbulb, Shield, Code } from "lucide-react";
 import { Project } from "@/data/portfolioData";
@@ -13,6 +13,20 @@ export default function ProjectModal({
   project: Project | null;
   onClose: () => void;
 }) {
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    if (project) {
+      window.addEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "hidden";
+    }
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "auto";
+    };
+  }, [project, onClose]);
+
   if (!project) return null;
 
   return (
@@ -24,7 +38,7 @@ export default function ProjectModal({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="fixed inset-0 bg-[#030308]/80 backdrop-blur-xl"
+          className="fixed inset-0 bg-[#030308]/85 backdrop-blur-xl cursor-pointer"
         />
 
         {/* Modal Window */}
@@ -32,13 +46,14 @@ export default function ProjectModal({
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
           className="relative w-full max-w-4xl glass-card rounded-3xl border border-white/20 p-6 sm:p-10 z-10 shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto"
         >
           {/* Close Button */}
           <button
             onClick={onClose}
-            className="absolute top-6 right-6 p-2.5 rounded-full bg-slate-900/80 border border-white/10 text-slate-400 hover:text-white hover:border-white/30 transition-all"
+            className="absolute top-6 right-6 p-2.5 rounded-full bg-slate-900/80 border border-white/10 text-slate-400 hover:text-white hover:border-white/30 transition-all cursor-pointer"
+            title="Close Modal (Esc)"
           >
             <X className="w-5 h-5" />
           </button>
