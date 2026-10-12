@@ -1,138 +1,103 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Mail, Brain, Layers, ShieldCheck } from "lucide-react";
-import Hero3DCanvas from "./Hero3DCanvas";
-import { PORTFOLIO_DATA } from "@/data/portfolioData";
+import { ArrowDown, ArrowRight } from "lucide-react";
+import { useTheme } from "./ThemeProvider";
+import SignatureVisual from "./SignatureVisual";
+
+const ease = [0.16, 1, 0.3, 1] as const;
 
 export default function HeroSection() {
-  const [headlineIndex, setHeadlineIndex] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setHeadlineIndex((prev) => (prev + 1) % PORTFOLIO_DATA.personal.headlines.length);
-    }, 4000);
-    return () => clearInterval(timer);
-  }, []);
+  const { isDark } = useTheme();
 
   return (
-    <section className="relative min-h-screen pt-36 pb-24 flex flex-col justify-center overflow-hidden bg-radial-glow border-b border-white/10">
-      {/* Full-Bleed Interactive 3D Studio Canvas Backdrop */}
-      <Hero3DCanvas />
+    <section className="relative min-h-screen flex items-center overflow-hidden">
+      {/* 3D visual — positioned behind on mobile, to the right on desktop */}
+      <div className="absolute inset-0 lg:left-[45%] lg:right-0 lg:top-0 lg:bottom-0 pointer-events-none lg:pointer-events-auto opacity-[0.06] lg:opacity-100">
+        <SignatureVisual isDark={isDark} />
+      </div>
 
-      {/* Ambient Grid Overlay */}
-      <div className="absolute inset-0 ambient-grid opacity-20 pointer-events-none" />
-
-      {/* Content Container (Layered Foreground) */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        {/* Left Column: Keynote Typography & Essential CTAs */}
-        <div className="lg:col-span-7 flex flex-col items-start pointer-events-auto">
-          {/* Availability Status Badge */}
+      <div className="section-container relative z-10 py-32 sm:py-40 lg:py-0 lg:min-h-screen lg:flex lg:items-center w-full">
+        <div className="max-w-xl lg:max-w-[560px]">
+          {/* Proof badge */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-indigo-950/40 border border-indigo-500/30 text-indigo-300 text-xs font-mono mb-8 backdrop-blur-md shadow-[0_0_20px_rgba(99,102,241,0.2)]"
+            transition={{ duration: 0.6, ease, delay: 0.1 }}
+            className="inline-flex items-center gap-2 chip mb-8"
           >
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>{PORTFOLIO_DATA.personal.availability}</span>
+            <span
+              className="w-1.5 h-1.5 rounded-full"
+              style={{ backgroundColor: "var(--c-blue)" }}
+            />
+            <span>SIH 2025 Finalist · B.Tech CSE</span>
           </motion.div>
 
-          {/* Main Keynote Title */}
+          {/* Headline */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.1] mb-6"
+            transition={{ duration: 0.7, ease, delay: 0.2 }}
+            className="font-display font-bold tracking-[-0.035em] leading-[1.05] mb-6"
+            style={{ fontSize: "clamp(2.5rem, 5.5vw, 4rem)" }}
           >
-            Creating the <br />
-            <span className="text-gradient-purple">Future of Digital</span> <br />
-            Experiences.
+            Code that thinks.
+            <br />
+            <span className="text-link">Interfaces that move.</span>
           </motion.h1>
 
-          {/* Morphing Headline Subtitle */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="h-12 flex items-center text-lg sm:text-2xl font-semibold text-cyan-300 mb-6 font-mono"
-          >
-            <span className="text-indigo-400 mr-2">&gt;</span>
-            <span className="border-r-2 border-cyan-400 animate-pulse pr-1">
-              {PORTFOLIO_DATA.personal.headlines[headlineIndex]}
-            </span>
-          </motion.div>
-
-          {/* Bio Description */}
+          {/* Subtitle */}
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            className="text-slate-400 text-base sm:text-lg max-w-2xl leading-relaxed mb-10"
+            transition={{ duration: 0.6, ease, delay: 0.35 }}
+            className="text-sub text-base sm:text-lg leading-relaxed mb-10 max-w-md"
           >
-            Smart India Hackathon 2025 Finalist & Full-Stack Architect building real-time WebRTC/Socket.IO platforms, AI telemedicine systems, and 3D web experiences.
+            I&apos;m Kausik — a full-stack engineer building AI-powered
+            platforms, real-time collaborative systems, and interactive 3D web
+            experiences.
           </motion.p>
 
-          {/* Action CTAs — Clean & High Contrast */}
+          {/* CTAs */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.4 }}
-            className="flex flex-wrap items-center gap-4 w-full sm:w-auto"
+            transition={{ duration: 0.5, ease, delay: 0.5 }}
+            className="flex flex-wrap items-center gap-4"
           >
             <a
-              href="#projects"
-              className="px-7 py-3.5 rounded-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 text-white font-semibold text-sm shadow-[0_0_35px_rgba(99,102,241,0.5)] hover:shadow-[0_0_45px_rgba(168,85,247,0.7)] hover:scale-105 transition-all flex items-center justify-center gap-2 group cursor-pointer"
+              href="#work"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-200 hover:gap-3"
+              style={{
+                backgroundColor: "var(--c-text)",
+                color: "var(--c-bg)",
+              }}
             >
-              <span>Explore Projects</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              View Selected Work
+              <ArrowRight className="w-4 h-4" />
             </a>
 
             <a
               href="#contact"
-              className="px-7 py-3.5 rounded-2xl bg-slate-900/80 hover:bg-slate-800 border border-slate-700/80 text-slate-200 font-semibold text-sm backdrop-blur-md hover:border-indigo-500/50 transition-all flex items-center justify-center gap-2 group cursor-pointer"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-medium border border-main text-sub hover:text-heading hover:border-[var(--c-text-2)] transition-colors duration-200"
             >
-              <Mail className="w-4 h-4 text-cyan-300" />
-              <span>Get In Touch</span>
+              Get in Touch
             </a>
           </motion.div>
 
-          {/* Tech Badges Row */}
+          {/* Scroll hint */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="mt-12 pt-8 border-t border-white/10 flex flex-wrap items-center gap-6 text-xs text-slate-400 font-mono"
+            transition={{ delay: 1.2, duration: 0.8 }}
+            className="hidden lg:flex items-center gap-2 mt-20 text-dim text-xs font-mono"
           >
-            <span className="flex items-center gap-2 text-indigo-300">
-              <Brain className="w-4 h-4 text-indigo-400" /> AI / ML PyTorch
-            </span>
-            <span className="flex items-center gap-2 text-purple-300">
-              <Layers className="w-4 h-4 text-purple-400" /> Three.js & Next.js 16
-            </span>
-            <span className="flex items-center gap-2 text-cyan-300">
-              <ShieldCheck className="w-4 h-4 text-cyan-400" /> Socket.IO & WebRTC
-            </span>
+            <ArrowDown className="w-3.5 h-3.5 animate-bounce" />
+            <span>Scroll to explore</span>
           </motion.div>
         </div>
-
-        {/* Right Column: Spanned by full-bleed background 3D canvas */}
-        <div className="lg:col-span-5 pointer-events-none" />
       </div>
-
-      {/* Scroll Down Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1, duration: 1 }}
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-slate-500 text-xs font-mono pointer-events-none"
-      >
-        <span className="tracking-widest uppercase text-[10px]">SCROLL TO EXPLORE</span>
-        <div className="w-5 h-9 rounded-full border border-slate-700 flex justify-center p-1">
-          <div className="w-1.5 h-2.5 rounded-full bg-indigo-400 animate-bounce" />
-        </div>
-      </motion.div>
     </section>
   );
 }
