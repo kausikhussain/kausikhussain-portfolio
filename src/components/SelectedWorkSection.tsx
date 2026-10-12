@@ -7,6 +7,8 @@ import { PORTFOLIO_DATA, Project } from "@/data/portfolioData";
 import { GithubIcon } from "./SocialIcons";
 import ProjectModal from "./ProjectModal";
 
+import audioSystem from "@/utils/audioSystem";
+
 const ease = [0.16, 1, 0.3, 1] as const;
 
 export default function SelectedWorkSection() {
@@ -14,6 +16,26 @@ export default function SelectedWorkSection() {
   const [filter, setFilter] = useState<string>("All");
 
   const categories = ["All", "AI & Full-Stack", "Real-Time Systems", "Web Applications"];
+
+  const getCategoryCount = (cat: string) => {
+    if (cat === "All") return PORTFOLIO_DATA.projects.length;
+    if (cat === "AI & Full-Stack") {
+      return PORTFOLIO_DATA.projects.filter(
+        (p) => p.category.includes("AI") || p.tags.includes("AI / ML") || p.tags.includes("Machine Learning")
+      ).length;
+    }
+    if (cat === "Real-Time Systems") {
+      return PORTFOLIO_DATA.projects.filter(
+        (p) => p.tags.includes("Socket.IO") || p.category.includes("Real-Time") || p.tags.includes("Geolocation")
+      ).length;
+    }
+    if (cat === "Web Applications") {
+      return PORTFOLIO_DATA.projects.filter(
+        (p) => p.category.includes("Web") || p.category.includes("Full-Stack")
+      ).length;
+    }
+    return 0;
+  };
 
   const flagshipProject = PORTFOLIO_DATA.projects.find((p) => p.id === "jansehat") || PORTFOLIO_DATA.projects[0];
   const otherProjects = PORTFOLIO_DATA.projects.filter((p) => p.id !== "jansehat");
@@ -25,6 +47,11 @@ export default function SelectedWorkSection() {
     if (filter === "Web Applications") return p.category.includes("Web") || p.category.includes("Full-Stack");
     return true;
   });
+
+  const handleFilterClick = (cat: string) => {
+    setFilter(cat);
+    audioSystem.playClick(1050, "sine", 0.02);
+  };
 
   return (
     <section id="work" className="py-24 sm:py-32 border-t border-main">
@@ -44,25 +71,37 @@ export default function SelectedWorkSection() {
             </p>
           </div>
 
-          {/* Filter Pills */}
+          {/* Filter Pills with Counts */}
           <div className="flex flex-wrap items-center gap-2">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setFilter(cat)}
-                className={`px-3.5 py-1.5 rounded-lg text-xs font-mono transition-all duration-200 cursor-pointer ${
-                  filter === cat
-                    ? "text-heading font-semibold"
-                    : "text-dim hover:text-heading"
-                }`}
-                style={{
-                  backgroundColor: filter === cat ? "var(--c-tag-bg)" : "transparent",
-                  border: `1px solid ${filter === cat ? "var(--c-border)" : "transparent"}`,
-                }}
-              >
-                {cat}
-              </button>
-            ))}
+            {categories.map((cat) => {
+              const count = getCategoryCount(cat);
+              const isActive = filter === cat;
+              return (
+                <button
+                  key={cat}
+                  onClick={() => handleFilterClick(cat)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all duration-200 cursor-pointer flex items-center gap-1.5 ${
+                    isActive
+                      ? "text-heading font-semibold"
+                      : "text-dim hover:text-heading"
+                  }`}
+                  style={{
+                    backgroundColor: isActive ? "var(--c-tag-bg)" : "transparent",
+                    border: `1px solid ${isActive ? "var(--c-border)" : "transparent"}`,
+                  }}
+                >
+                  <span>{cat}</span>
+                  <span
+                    className="text-[10px] px-1.5 py-0.2 rounded-full font-mono opacity-80"
+                    style={{
+                      backgroundColor: isActive ? "var(--c-surface)" : "var(--c-tag-bg)",
+                    }}
+                  >
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
           </div>
         </div>
 
