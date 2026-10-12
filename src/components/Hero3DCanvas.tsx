@@ -25,6 +25,7 @@ function CreativeMobiusSculpture({ pointer }: { pointer: React.RefObject<{ x: nu
   const prism2Ref = useRef<THREE.Mesh>(null!);
   const prism3Ref = useRef<THREE.Mesh>(null!);
   const internalLightRef = useRef<THREE.PointLight>(null!);
+  const rimLightRef = useRef<THREE.DirectionalLight>(null!);
 
   // Orbital particles around the sculpture
   const particleCount = 85;
@@ -119,6 +120,13 @@ function CreativeMobiusSculpture({ pointer }: { pointer: React.RefObject<{ x: nu
       prism3Ref.current.rotation.z -= 0.008;
       prism3Ref.current.position.y = 0.8 + Math.sin(t * 0.7 + 3) * 0.12;
     }
+
+    // Dynamic Rim Light Shifts reacting to time and pointer
+    if (rimLightRef.current) {
+      rimLightRef.current.position.x = -10 + Math.sin(t * 0.4) * 2 + mx * 1.5;
+      rimLightRef.current.position.y = 8 + Math.cos(t * 0.3) * 1.5 - my * 1.2;
+      rimLightRef.current.intensity = 2.4 + Math.sin(t * 0.8) * 0.3;
+    }
   });
 
   return (
@@ -128,7 +136,7 @@ function CreativeMobiusSculpture({ pointer }: { pointer: React.RefObject<{ x: nu
       {/* Key directional light: Radiant Violet */}
       <directionalLight position={[9, 12, 10]} intensity={3.0} color="#A855F7" />
       {/* Rim directional light: Neon Rose */}
-      <directionalLight position={[-10, 8, -8]} intensity={2.4} color="#EC4899" />
+      <directionalLight ref={rimLightRef} position={[-10, 8, -8]} intensity={2.4} color="#EC4899" />
       {/* Fill directional light: Warm Amber */}
       <directionalLight position={[-4, -8, 6]} intensity={1.2} color="#F97316" />
 
@@ -682,6 +690,17 @@ export default function Hero3DCanvas() {
     };
   };
 
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (e.touches.length > 0) {
+      const touch = e.touches[0];
+      const r = e.currentTarget.getBoundingClientRect();
+      pointer.current = {
+        x: ((touch.clientX - r.left) / r.width) * 2 - 1,
+        y: -(((touch.clientY - r.top) / r.height) * 2 - 1),
+      };
+    }
+  };
+
   if (reduced) {
     return (
       <div ref={containerRef} className="absolute inset-0 w-full h-full flex items-center justify-center opacity-10 pointer-events-none">
@@ -697,6 +716,7 @@ export default function Hero3DCanvas() {
     <div
       ref={containerRef}
       onPointerMove={handlePointerMove}
+      onTouchMove={handleTouchMove}
       className="absolute inset-0 w-full h-full pointer-events-none lg:pointer-events-auto z-0"
     >
       <Canvas
