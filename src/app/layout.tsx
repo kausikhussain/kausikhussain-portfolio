@@ -58,7 +58,7 @@ export default function RootLayout({
         {/* Blocking script: apply saved theme before first paint to prevent flash */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem("kh-theme");document.documentElement.setAttribute("data-theme",t==="studio"?"studio":"afterhours")}catch(e){}})();`,
+            __html: `(function(){try{var t=localStorage.getItem("kh-persona")||localStorage.getItem("kh-theme");var m=(t==="creative"||t==="engineering")?t:"ai";document.documentElement.setAttribute("data-theme",m);document.documentElement.setAttribute("data-identity-mode",m);}catch(e){}})();`,
           }}
         />
       </head>

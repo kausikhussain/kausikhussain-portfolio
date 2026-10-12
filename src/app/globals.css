@@ -2,77 +2,122 @@
 
 /* =============================================
    PORTFOLIO DESIGN SYSTEM — Sk Kausik Hussain
-   Two themes: STUDIO (light editorial) & AFTER HOURS (dark technical)
+   THREE ART-DIRECTED PROFESSIONAL WORLDS:
+   1. AI / ML RESEARCH LAB (Cyan & Electric Blue)
+   2. 3D WEB / CREATIVE STUDIO (Radiant Purple & Neon Rose)
+   3. FULL-STACK ENGINEERING COMMAND CENTER (Phosphor Emerald & System Teal)
    ============================================= */
 
-/* ─── STUDIO (LIGHT) — Default ─── */
-:root {
-  --c-bg: #FAFAF8;
-  --c-bg-alt: #F2F2EF;
-  --c-surface: #FFFFFF;
-  --c-surface-raised: #F7F7F5;
+/* ─── 1. THEME: AI / ML RESEARCH LAB (Default) ─── */
+:root,
+[data-theme="ai"],
+[data-identity-mode="ai"] {
+  --c-bg: #050813;
+  --c-bg-alt: #090E22;
+  --c-surface: #0D1530;
+  --c-surface-raised: #131F46;
 
-  --c-text: #141414;
-  --c-text-2: #555555;
-  --c-text-3: #8F8F8F;
+  --c-text: #F0F4FC;
+  --c-text-2: #94A3B8;
+  --c-text-3: #64748B;
 
-  --c-blue: #2563EB;
-  --c-blue-soft: rgba(37, 99, 235, 0.06);
+  --c-blue: #06B6D4;
+  --c-blue-secondary: #3B82F6;
+  --c-blue-soft: rgba(6, 182, 212, 0.12);
 
-  --c-border: #E5E5E3;
-  --c-border-subtle: rgba(0, 0, 0, 0.05);
+  --c-border: #1E293B;
+  --c-border-subtle: rgba(6, 182, 212, 0.18);
 
-  --c-tag-bg: #EDEDEB;
-  --c-tag-text: #5C5C5C;
+  --c-tag-bg: rgba(6, 182, 212, 0.08);
+  --c-tag-text: #38BDF8;
 
-  --shadow-xs: 0 1px 2px rgba(0,0,0,0.04);
-  --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
-  --shadow-md: 0 4px 20px rgba(0,0,0,0.06);
-  --shadow-lg: 0 12px 40px rgba(0,0,0,0.08);
+  --shadow-xs: 0 1px 2px rgba(0,0,0,0.4);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.5);
+  --shadow-md: 0 4px 20px rgba(6, 182, 212, 0.08);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.7);
 
-  --nav-bg: rgba(250, 250, 248, 0.82);
+  --nav-bg: rgba(5, 8, 19, 0.82);
 
-  --vis-line: rgba(20, 20, 20, 0.10);
-  --vis-point: rgba(20, 20, 20, 0.30);
+  --vis-line: rgba(6, 182, 212, 0.12);
+  --vis-point: rgba(6, 182, 212, 0.4);
 
   --sb-track: transparent;
-  --sb-thumb: #D5D5D3;
-  --sb-hover: #BFBFBD;
+  --sb-thumb: #1E293B;
+  --sb-hover: #334155;
 }
 
-/* ─── AFTER HOURS (DARK) ─── */
-[data-theme="afterhours"] {
-  --c-bg: #0C0C0C;
-  --c-bg-alt: #121212;
-  --c-surface: #181818;
-  --c-surface-raised: #212121;
+/* ─── 2. THEME: 3D WEB / CREATIVE STUDIO ─── */
+[data-theme="creative"],
+[data-identity-mode="creative"] {
+  --c-bg: #090514;
+  --c-bg-alt: #120924;
+  --c-surface: #180D30;
+  --c-surface-raised: #241348;
 
-  --c-text: #EBEBEB;
-  --c-text-2: #888888;
-  --c-text-3: #505050;
+  --c-text: #FAF5FF;
+  --c-text-2: #A8A29E;
+  --c-text-3: #78716C;
 
-  --c-blue: #6B9FFF;
-  --c-blue-soft: rgba(107, 159, 255, 0.08);
+  --c-blue: #A855F7;
+  --c-blue-secondary: #EC4899;
+  --c-blue-soft: rgba(168, 85, 247, 0.12);
 
-  --c-border: #252525;
-  --c-border-subtle: rgba(255, 255, 255, 0.05);
+  --c-border: #2E1065;
+  --c-border-subtle: rgba(168, 85, 247, 0.2);
 
-  --c-tag-bg: rgba(255, 255, 255, 0.06);
-  --c-tag-text: #888888;
+  --c-tag-bg: rgba(168, 85, 247, 0.08);
+  --c-tag-text: #C084FC;
 
-  --shadow-xs: 0 1px 2px rgba(0,0,0,0.2);
-  --shadow-sm: 0 2px 8px rgba(0,0,0,0.2);
-  --shadow-md: 0 4px 20px rgba(0,0,0,0.35);
-  --shadow-lg: 0 12px 40px rgba(0,0,0,0.5);
+  --shadow-xs: 0 1px 2px rgba(0,0,0,0.4);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.5);
+  --shadow-md: 0 4px 20px rgba(168, 85, 247, 0.08);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.7);
 
-  --nav-bg: rgba(12, 12, 12, 0.82);
+  --nav-bg: rgba(9, 5, 20, 0.82);
 
-  --vis-line: rgba(235, 235, 235, 0.06);
-  --vis-point: rgba(235, 235, 235, 0.20);
+  --vis-line: rgba(168, 85, 247, 0.12);
+  --vis-point: rgba(168, 85, 247, 0.4);
 
   --sb-track: transparent;
-  --sb-thumb: #333333;
-  --sb-hover: #444444;
+  --sb-thumb: #2E1065;
+  --sb-hover: #4C1D95;
+}
+
+/* ─── 3. THEME: FULL-STACK COMMAND CENTER ─── */
+[data-theme="engineering"],
+[data-identity-mode="engineering"] {
+  --c-bg: #040D0A;
+  --c-bg-alt: #071712;
+  --c-surface: #0B2019;
+  --c-surface-raised: #102D24;
+
+  --c-text: #ECFDF5;
+  --c-text-2: #94A3B8;
+  --c-text-3: #64748B;
+
+  --c-blue: #10B981;
+  --c-blue-secondary: #14B8A6;
+  --c-blue-soft: rgba(16, 185, 129, 0.12);
+
+  --c-border: #064E3B;
+  --c-border-subtle: rgba(16, 185, 129, 0.2);
+
+  --c-tag-bg: rgba(16, 185, 129, 0.08);
+  --c-tag-text: #34D399;
+
+  --shadow-xs: 0 1px 2px rgba(0,0,0,0.4);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.5);
+  --shadow-md: 0 4px 20px rgba(16, 185, 129, 0.08);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.7);
+
+  --nav-bg: rgba(4, 13, 10, 0.82);
+
+  --vis-line: rgba(16, 185, 129, 0.12);
+  --vis-point: rgba(16, 185, 129, 0.4);
+
+  --sb-track: transparent;
+  --sb-thumb: #064E3B;
+  --sb-hover: #065F46;
 }
 
 /* ─── BASE STYLES ─── */
@@ -92,6 +137,7 @@ body {
 
 ::selection {
   background-color: var(--c-blue-soft);
+  color: var(--c-text);
 }
 
 h1, h2, h3, h4 {
@@ -161,26 +207,29 @@ h1, h2, h3, h4 {
   font-family: var(--font-mono), monospace;
   background: var(--c-tag-bg);
   color: var(--c-tag-text);
+  border: 1px solid var(--c-border-subtle);
   white-space: nowrap;
-  transition: background 0.2s, color 0.2s;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
 }
 .chip:hover {
-  color: var(--c-text-2);
+  color: var(--c-text);
+  border-color: var(--c-blue);
 }
 
 /* ─── COMPONENT: Card ─── */
 .card-base {
   background: var(--c-surface);
   border: 1px solid var(--c-border);
-  transition: border-color 0.25s, box-shadow 0.25s;
+  transition: border-color 0.25s, box-shadow 0.25s, background-color 0.25s;
 }
 .card-base:hover {
+  border-color: var(--c-border-subtle);
   box-shadow: var(--shadow-md);
 }
 
 /* ─── CONTAINER ─── */
 .section-container {
-  max-width: 1120px;
+  max-width: 1140px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
@@ -193,4 +242,12 @@ h1, h2, h3, h4 {
   background: var(--c-border);
   border: none;
   margin: 0;
+}
+
+/* ─── AMBIENT GRID ─── */
+.ambient-grid {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, var(--vis-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--vis-line) 1px, transparent 1px);
 }

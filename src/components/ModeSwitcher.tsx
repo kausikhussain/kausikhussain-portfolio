@@ -3,54 +3,64 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Brain, Sparkles, Cpu, LucideIcon } from "lucide-react";
-import { useIdentityMode, IdentityMode } from "./IdentityModeContext";
-import { soundEffects } from "@/utils/soundEffects";
+import { useTheme, ProfessionTheme, THEME_CONFIG } from "./ThemeProvider";
+import audioSystem from "@/utils/audioSystem";
 
 export default function ModeSwitcher() {
-  const { mode, setMode } = useIdentityMode();
+  const { theme, setTheme } = useTheme();
 
-  const modes: { id: IdentityMode; label: string; icon: LucideIcon; color: string }[] = [
-    { id: "ai", label: "AI Intelligence", icon: Brain, color: "text-cyan-400" },
-    { id: "creative", label: "Creative Studio", icon: Sparkles, color: "text-purple-400" },
-    { id: "engineering", label: "Engineering", icon: Cpu, color: "text-emerald-400" }
+  const themes: { id: ProfessionTheme; label: string; icon: LucideIcon }[] = [
+    { id: "ai", label: "AI / ML", icon: Brain },
+    { id: "creative", label: "3D WEB", icon: Sparkles },
+    { id: "engineering", label: "FULL-STACK", icon: Cpu },
   ];
 
-  const handleModeChange = (id: IdentityMode) => {
-    soundEffects.playModeSwitch();
-    setMode(id);
+  const handleSelect = (id: ProfessionTheme) => {
+    if (theme === id) return;
+    setTheme(id);
   };
 
   return (
-    <div className="inline-flex items-center gap-1 p-1 rounded-full bg-slate-950/80 border border-white/10 shadow-2xl backdrop-blur-xl">
-      {modes.map((m) => {
-        const Icon = m.icon;
-        const isActive = mode === m.id;
+    <div
+      className="inline-flex items-center gap-1 p-1 rounded-xl border border-main shadow-theme-sm backdrop-blur-xl"
+      style={{ backgroundColor: "var(--c-surface)" }}
+      role="tablist"
+      aria-label="Professional dimension switcher"
+    >
+      {themes.map((item) => {
+        const Icon = item.icon;
+        const isActive = theme === item.id;
+        const meta = THEME_CONFIG[item.id];
+
         return (
           <button
-            key={m.id}
-            onClick={() => handleModeChange(m.id)}
-            onMouseEnter={() => soundEffects.playHoverTick()}
-            className={`relative px-3.5 py-1.5 rounded-full text-xs font-mono transition-all flex items-center gap-1.5 ${
-              isActive ? "text-white font-bold" : "text-slate-400 hover:text-slate-200"
+            key={item.id}
+            role="tab"
+            aria-selected={isActive}
+            onClick={() => handleSelect(item.id)}
+            onMouseEnter={() => audioSystem.playHover()}
+            className={`relative px-3 sm:px-3.5 py-1.5 rounded-lg text-xs font-mono font-medium transition-colors duration-200 flex items-center gap-1.5 cursor-pointer z-10 ${
+              isActive ? "text-heading font-semibold" : "text-dim hover:text-sub"
             }`}
           >
             {isActive && (
               <motion.div
-                layoutId="activeModePill"
-                className={`absolute inset-0 rounded-full border shadow-md ${
-                  m.id === "ai"
-                    ? "bg-cyan-950/80 border-cyan-500/50 shadow-[0_0_15px_rgba(6,182,212,0.3)]"
-                    : m.id === "creative"
-                    ? "bg-purple-950/80 border-purple-500/50 shadow-[0_0_15px_rgba(168,85,247,0.3)]"
-                    : "bg-emerald-950/80 border-emerald-500/50 shadow-[0_0_15px_rgba(16,185,129,0.3)]"
-                }`}
-                transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                layoutId="active-persona-pill"
+                className="absolute inset-0 rounded-lg border shadow-xs"
+                style={{
+                  backgroundColor: "var(--c-surface-raised)",
+                  borderColor: meta.accentColor,
+                  boxShadow: `0 0 16px ${meta.accentColor}25`,
+                }}
+                transition={{ type: "spring", stiffness: 420, damping: 32 }}
               />
             )}
             <span className="relative z-10 flex items-center gap-1.5">
-              <Icon className={`w-3.5 h-3.5 ${isActive ? m.color : "text-slate-400"}`} />
-              <span className="hidden sm:inline">{m.label}</span>
-              <span className="sm:hidden">{m.label.split(" ")[0]}</span>
+              <Icon
+                className="w-3.5 h-3.5 transition-colors"
+                style={{ color: isActive ? meta.accentColor : "currentColor" }}
+              />
+              <span className="tracking-tight">{item.label}</span>
             </span>
           </button>
         );

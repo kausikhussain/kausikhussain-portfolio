@@ -2,17 +2,25 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Brain, Terminal as TerminalIcon, Sparkles, CornerDownLeft, Award, ExternalLink, Cpu, RefreshCw, ArrowRight, MessageSquare, Layers, ShieldCheck, Zap } from "lucide-react";
-import { PORTFOLIO_DATA } from "@/data/portfolioData";
-import { useIdentityMode } from "./IdentityModeContext";
+import {
+  Brain,
+  Terminal as TerminalIcon,
+  Sparkles,
+  CornerDownLeft,
+  Award,
+  ExternalLink,
+  Cpu,
+  RefreshCw,
+  ArrowRight,
+  MessageSquare,
+  ShieldCheck,
+  Zap,
+} from "lucide-react";
+import { useTheme } from "./ThemeProvider";
 import audioSystem from "@/utils/audioSystem";
 import aiSemanticEngine, { SemanticResponse } from "@/utils/aiSemanticEngine";
 import { PROJECT_CASE_STUDIES } from "@/data/projectCaseStudies";
 import { GithubIcon } from "./SocialIcons";
-import Section from "./ui/Section";
-import Heading from "./ui/Heading";
-import Card from "./ui/Card";
-import Tag from "./ui/Tag";
 
 interface StreamLogEntry {
   id: string;
@@ -21,12 +29,16 @@ interface StreamLogEntry {
 }
 
 export default function AILabSection() {
+  const { meta } = useTheme();
   const [selectedTopicIdx, setSelectedTopicIdx] = useState(0);
   const [cmdInput, setCmdInput] = useState("");
   const [historyIndex, setHistoryIndex] = useState(-1);
-  const [commandHistory, setCommandHistory] = useState<string[]>(["jansehat", "iit bhubaneswar", "offline mode"]);
+  const [commandHistory, setCommandHistory] = useState<string[]>([
+    "jansehat",
+    "offline mode",
+    "why hire kausik?",
+  ]);
   const [isExecuting, setIsExecuting] = useState(false);
-  const { setMode } = useIdentityMode();
   const outputEndRef = useRef<HTMLDivElement>(null);
 
   const initialResponse = aiSemanticEngine.query("jansehat");
@@ -35,21 +47,12 @@ export default function AILabSection() {
     {
       id: "init",
       query: "jansehat",
-      response: initialResponse
-    }
+      response: initialResponse,
+    },
   ]);
 
-  const quickPrompts = [
-    "jansehat",
-    "how does offline mode work?",
-    "iit bhubaneswar",
-    "tripsync architecture",
-    "biggest challenge in victus",
-    "why hire kausik?",
-    "which project uses webrtc?",
-    "fitness journey",
-    "family business"
-  ];
+  // Dynamic suggested prompts from the active theme!
+  const quickPrompts = meta.starterQuestions;
 
   useEffect(() => {
     outputEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -75,20 +78,15 @@ export default function AILabSection() {
       setIsExecuting(false);
       const res = aiSemanticEngine.query(query);
 
-      const lower = query.toLowerCase();
-      if (lower.includes("mode ai")) setMode("ai");
-      else if (lower.includes("mode creative")) setMode("creative");
-      else if (lower.includes("mode eng")) setMode("engineering");
-
       setStreamEntries((prev) => [
         ...prev,
         {
           id: Math.random().toString(),
           query: query,
-          response: res
-        }
+          response: res,
+        },
       ]);
-    }, 400);
+    }, 350);
 
     setCmdInput("");
   };
@@ -96,7 +94,7 @@ export default function AILabSection() {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Tab") {
       e.preventDefault();
-      const match = quickPrompts.find((p) => p.startsWith(cmdInput.toLowerCase()));
+      const match = quickPrompts.find((p) => p.toLowerCase().startsWith(cmdInput.toLowerCase()));
       if (match) setCmdInput(match);
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
@@ -123,293 +121,343 @@ export default function AILabSection() {
   const activeCS = PROJECT_CASE_STUDIES[selectedTopicIdx] || PROJECT_CASE_STUDIES[0];
 
   return (
-    <Section id="ai-lab" withGlow={true}>
-      {/* Section Header */}
-      <Heading
-        badge="04 / INTELLIGENT AI WORKSPACE & COMMAND CONSOLE"
-        badgeIcon={<Brain className="w-3.5 h-3.5" />}
-        title="Natural Language"
-        gradientText="Semantic AI Assistant"
-        subtitle="Ask anything about Sk Kausik Hussain's SIH 2025 finalist journey, college CGPA, 10th/12th marks, projects, fitness, or career vision in natural language."
-        align="center"
-      />
-
-      {/* Multi-Panel Workspace Console Container */}
-      <Card className="p-0 overflow-hidden border border-white/15 backdrop-blur-2xl shadow-[0_20px_60px_rgba(0,0,0,0.8)] font-mono" hoverGlow={false}>
-        {/* Top Header Bar */}
-        <div className="bg-[#080914] px-6 py-3.5 border-b border-white/10 flex flex-wrap items-center justify-between gap-4 text-xs">
-          <div className="flex items-center gap-3">
-            <span className="flex items-center gap-2 font-bold text-white uppercase tracking-wider">
-              <TerminalIcon className="w-4 h-4 text-cyan-400" />
-              KAUSIK_AI_ENGINE // DEEP KNOWLEDGE BASE v3.2
-            </span>
+    <section id="ai-lab" className="py-24 sm:py-32 border-t border-main">
+      <div className="section-container">
+        {/* Section Header */}
+        <div className="max-w-2xl mb-12">
+          <div className="inline-flex items-center gap-2 chip mb-4">
+            <span
+              className="w-1.5 h-1.5 rounded-full"
+              style={{ backgroundColor: meta.accentColor }}
+            />
+            <span>02 / INTELLIGENT AI WORKSPACE</span>
           </div>
-
-          <div className="flex flex-wrap items-center gap-4 text-slate-400 text-[11px]">
-            <span className="flex items-center gap-1.5 text-emerald-400">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              AI Intelligence: Online
-            </span>
-            <span className="hidden sm:inline-block text-slate-500">•</span>
-            <span className="hidden sm:inline-block">Location: Bhubaneswar, IN</span>
-            <span className="hidden sm:inline-block text-slate-500">•</span>
-            <span className="text-cyan-300">Open for Opportunities</span>
-          </div>
+          <h2 className="text-3xl sm:text-5xl font-display font-bold tracking-tight text-heading">
+            Grounded Semantic AI Companion.
+          </h2>
+          <p className="text-sub text-base sm:text-lg mt-3">
+            Ask anything about Kausik's SIH 2025 finalist journey, college CGPA, project architectures, or career capabilities in natural language.
+          </p>
         </div>
 
-        {/* Workspace 3-Column Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[520px]">
-          {/* Left Sidebar: Quick Prompts */}
-          <div className="lg:col-span-3 bg-black/40 border-r border-white/10 p-5 text-xs flex flex-col justify-between">
-            <div>
-              <span className="text-[10px] text-slate-400 uppercase tracking-widest block mb-4">
-                SAMPLE QUESTIONS
+        {/* Multi-Panel Workspace Console */}
+        <div className="rounded-3xl border border-main overflow-hidden card-base font-mono shadow-theme-lg">
+          {/* Header Bar */}
+          <div
+            className="px-6 py-3.5 border-b border-faint flex flex-wrap items-center justify-between gap-4 text-xs"
+            style={{ backgroundColor: "var(--c-surface-raised)" }}
+          >
+            <div className="flex items-center gap-3">
+              <span className="flex items-center gap-2 font-bold text-heading uppercase tracking-wider">
+                <TerminalIcon className="w-4 h-4" style={{ color: meta.accentColor }} />
+                <span>KAUSIK_AI_ENGINE // v3.2 KNOWLEDGE RETRIEVAL</span>
               </span>
-              <div className="flex flex-col gap-2">
-                {quickPrompts.map((prompt) => (
-                  <button
-                    key={prompt}
-                    onClick={() => handleQuerySubmit(prompt)}
-                    className="text-left px-3 py-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] text-slate-300 hover:text-white transition-all flex items-center justify-between group cursor-pointer"
-                  >
-                    <span className="truncate">&gt; {prompt}</span>
-                    <ArrowRight className="w-3 h-3 text-slate-500 group-hover:text-cyan-400 group-hover:translate-x-0.5 transition-all shrink-0 ml-1" />
-                  </button>
-                ))}
+            </div>
+
+            <div className="flex flex-wrap items-center gap-4 text-xs text-dim">
+              <span className="flex items-center gap-1.5 text-emerald-400 font-semibold">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                Grounded Engine: Online
+              </span>
+              <span className="hidden sm:inline-block">•</span>
+              <span className="hidden sm:inline-block">Bhubaneswar, IN</span>
+              <span className="hidden sm:inline-block">•</span>
+              <span className="font-semibold" style={{ color: meta.accentColor }}>
+                {meta.label} Dimension Active
+              </span>
+            </div>
+          </div>
+
+          {/* 3-Column Layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[500px]">
+            {/* Left Sidebar: Theme Suggested Prompts */}
+            <div className="lg:col-span-3 border-r border-faint p-5 text-xs flex flex-col justify-between bg-page">
+              <div>
+                <span className="text-[10px] text-dim uppercase tracking-widest block mb-3 font-semibold">
+                  SUGGESTED QUESTIONS
+                </span>
+                <div className="flex flex-col gap-2">
+                  {quickPrompts.map((prompt) => (
+                    <button
+                      key={prompt}
+                      onClick={() => handleQuerySubmit(prompt)}
+                      className="text-left px-3 py-2.5 rounded-xl border border-faint text-sub hover:text-heading transition-all flex items-center justify-between group cursor-pointer bg-raised"
+                    >
+                      <span className="truncate">&gt; {prompt}</span>
+                      <ArrowRight
+                        className="w-3 h-3 group-hover:translate-x-0.5 transition-transform shrink-0 ml-1"
+                        style={{ color: meta.accentColor }}
+                      />
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="pt-4 mt-6 border-t border-faint text-[11px] text-dim">
+                <p>Type any natural query (e.g. "What was the biggest challenge in TripSync?")</p>
               </div>
             </div>
 
-            <div className="pt-4 mt-6 border-t border-white/10 text-[11px] text-slate-500 space-y-1">
-              <p>Type any natural question (e.g. "What was the biggest challenge in TripSync?")</p>
-            </div>
-          </div>
+            {/* Center Main Workspace: Query Stream */}
+            <div className="lg:col-span-6 p-6 text-xs flex flex-col justify-between bg-surface">
+              {/* Stream Output */}
+              <div className="space-y-6 max-h-[420px] overflow-y-auto pr-2">
+                {streamEntries.map((entry) => {
+                  const topic = entry.response.matchedTopic;
+                  const cs = entry.response.deepCaseStudy;
 
-          {/* Center Main Workspace: Deep Response Stream */}
-          <div className="lg:col-span-6 p-6 text-xs flex flex-col justify-between bg-[#04040a]">
-            {/* Stream Output List */}
-            <div className="space-y-6 max-h-[440px] overflow-y-auto pr-2 scrollbar-thin">
-              {streamEntries.map((entry) => {
-                const topic = entry.response.matchedTopic;
-                const cs = entry.response.deepCaseStudy;
-
-                return (
-                  <motion.div
-                    key={entry.id}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="space-y-3"
-                  >
-                    {/* User Prompt Line */}
-                    <div className="flex items-center gap-2 text-cyan-400 font-bold">
-                      <span>user@kausik-ai:~$</span>
-                      <span>{entry.query}</span>
-                    </div>
-
-                    {/* Rich Response Card */}
-                    <Card className="p-5 bg-slate-950/80 border border-white/15" hoverGlow={false}>
-                      {entry.response.conversationalNote && (
-                        <p className="text-[11px] text-cyan-400 mb-2 italic">{entry.response.conversationalNote}</p>
-                      )}
-
-                      {entry.response.interviewAnswer && (
-                        <div className="p-3.5 rounded-xl bg-cyan-950/40 border border-cyan-500/30 text-cyan-200 leading-relaxed font-mono text-xs mb-4">
-                          <span className="font-bold text-white block mb-1">⚡ Recruiter Interview Response:</span>
-                          {entry.response.interviewAnswer}
-                        </div>
-                      )}
-
-                      <div className="flex items-center justify-between mb-3">
-                        <Tag label={topic.category.toUpperCase()} variant="accent" size="sm" />
-                        {topic.id.includes("jansehat") && (
-                          <span className="inline-flex items-center gap-1 text-[11px] text-amber-300 font-bold">
-                            <Award className="w-3.5 h-3.5 text-amber-400" /> SIH '25 FINALIST
-                          </span>
-                        )}
+                  return (
+                    <motion.div
+                      key={entry.id}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="space-y-3"
+                    >
+                      {/* User Prompt */}
+                      <div className="flex items-center gap-2 font-bold" style={{ color: meta.accentColor }}>
+                        <span>visitor@portfolio:~$</span>
+                        <span>{entry.query}</span>
                       </div>
 
-                      <h4 className="text-base font-bold text-white mb-2">{topic.title}</h4>
-                      <p className="text-xs text-slate-300 leading-relaxed mb-4">{topic.summary}</p>
+                      {/* Response Card */}
+                      <div className="p-5 rounded-2xl border border-main bg-raised">
+                        {entry.response.conversationalNote && (
+                          <p className="text-[11px] mb-2 italic" style={{ color: meta.accentColor }}>
+                            {entry.response.conversationalNote}
+                          </p>
+                        )}
 
-                      {/* Deep Case Study Breakdown (If Matched) */}
-                      {cs && (
-                        <div className="space-y-3 mb-4 bg-black/40 p-4 rounded-xl border border-white/10 text-[11px] leading-relaxed text-slate-300">
-                          <div>
-                            <span className="text-cyan-400 font-bold block mb-1">REAL-WORLD PROBLEM & MOTIVATION:</span>
-                            <p>{cs.problem} — {cs.motivation}</p>
+                        {entry.response.interviewAnswer && (
+                          <div
+                            className="p-3.5 rounded-xl border leading-relaxed text-xs mb-4"
+                            style={{
+                              backgroundColor: "var(--c-surface)",
+                              borderColor: `${meta.accentColor}35`,
+                            }}
+                          >
+                            <span className="font-bold text-heading block mb-1">
+                              ⚡ Verified Interview Response:
+                            </span>
+                            <span className="text-sub font-sans">{entry.response.interviewAnswer}</span>
                           </div>
+                        )}
 
-                          {cs.architecture && (
+                        <div className="flex items-center justify-between mb-3">
+                          <span className="chip text-[11px] uppercase">{topic.category}</span>
+                          {topic.id.includes("jansehat") && (
+                            <span className="inline-flex items-center gap-1 text-[11px] text-amber-500 font-bold">
+                              <Award className="w-3.5 h-3.5" /> SIH '25 FINALIST
+                            </span>
+                          )}
+                        </div>
+
+                        <h4 className="text-base font-bold text-heading mb-1.5">{topic.title}</h4>
+                        <p className="text-xs text-sub leading-relaxed mb-4">{topic.summary}</p>
+
+                        {/* Deep Case Study Breakdown (If matched) */}
+                        {cs && (
+                          <div className="space-y-2.5 mb-4 p-4 rounded-xl border border-faint bg-surface text-[11px] leading-relaxed">
                             <div>
-                              <span className="text-purple-400 font-bold block mb-1">COMPLETE ARCHITECTURE STACK:</span>
-                              <p className="font-mono text-[10px] text-slate-400">
-                                Frontend: {cs.architecture.frontend.join(", ")} | Backend: {cs.architecture.backend.join(", ")} | DB: {cs.architecture.database.join(", ")}
+                              <span className="font-bold text-heading block mb-0.5">PROBLEM & MOTIVATION:</span>
+                              <p className="text-sub">{cs.problem}</p>
+                            </div>
+
+                            {cs.challengesAndSolutions && cs.challengesAndSolutions.length > 0 && (
+                              <div className="pt-2 border-t border-faint">
+                                <span className="font-bold text-heading block mb-0.5">TECHNICAL OBSTACLE & SOLUTION:</span>
+                                <p className="text-sub">[Obstacle]: {cs.challengesAndSolutions[0].challenge}</p>
+                                <p className="text-sub mt-1">[Engineering Solution]: {cs.challengesAndSolutions[0].solution}</p>
+                              </div>
+                            )}
+                          </div>
+                        )}
+
+                        {/* Details Bullet List */}
+                        {!cs && topic.details && topic.details.length > 0 && (
+                          <div className="space-y-1.5 mb-4 p-3.5 rounded-xl border border-faint bg-surface text-[11px] leading-relaxed">
+                            {topic.details.map((detail, dIdx) => (
+                              <p key={dIdx} className="flex items-start gap-2 text-sub">
+                                <span style={{ color: meta.accentColor }}>•</span>
+                                <span>{detail}</span>
                               </p>
-                            </div>
-                          )}
-
-                          {cs.challengesAndSolutions && cs.challengesAndSolutions.length > 0 && (
-                            <div>
-                              <span className="text-amber-400 font-bold block mb-1">BIGGEST ENGINEERING CHALLENGE & SOLUTION:</span>
-                              <p>[Challenge]: {cs.challengesAndSolutions[0].challenge}</p>
-                              <p>[Solution]: {cs.challengesAndSolutions[0].solution}</p>
-                            </div>
-                          )}
-                        </div>
-                      )}
-
-                      {/* Details Bullet List (Fallback for general topics) */}
-                      {!cs && topic.details && topic.details.length > 0 && (
-                        <div className="space-y-2 mb-4 bg-black/40 p-3.5 rounded-xl border border-white/10 text-[11px] leading-relaxed text-slate-300">
-                          {topic.details.map((detail, dIdx) => (
-                            <p key={dIdx} className="flex items-start gap-2">
-                              <span className="text-cyan-400 font-bold">•</span>
-                              <span>{detail}</span>
-                            </p>
-                          ))}
-                        </div>
-                      )}
-
-                      {/* Metrics Cards Grid */}
-                      {topic.metrics && topic.metrics.length > 0 && (
-                        <div className="grid grid-cols-2 gap-3 mb-4">
-                          {topic.metrics.map((m) => (
-                            <div key={m.label} className="p-2.5 rounded-xl bg-white/5 border border-white/10 text-center">
-                              <span className="text-[10px] text-slate-400 block">{m.label}</span>
-                              <span className="text-xs font-bold text-cyan-300">{m.value}</span>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-
-                      {/* Action Links */}
-                      {(cs?.github || cs?.demo) && (
-                        <div className="flex items-center gap-2 mb-4 pt-2">
-                          {cs.github && (
-                            <a href={cs.github} target="_blank" rel="noopener noreferrer">
-                              <button className="px-3.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-[11px] font-bold flex items-center gap-1.5 cursor-pointer">
-                                <GithubIcon className="w-3.5 h-3.5" /> GitHub Code
-                              </button>
-                            </a>
-                          )}
-                          {cs.demo && (
-                            <a href={cs.demo} target="_blank" rel="noopener noreferrer">
-                              <button className="px-3.5 py-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40 text-cyan-300 text-[11px] font-bold flex items-center gap-1.5 cursor-pointer">
-                                <span>Live Demo</span>
-                                <ExternalLink className="w-3 h-3" />
-                              </button>
-                            </a>
-                          )}
-                        </div>
-                      )}
-
-                      {/* Dynamic Related Question Chips */}
-                      {topic.relatedQuestions && topic.relatedQuestions.length > 0 && (
-                        <div className="pt-3 border-t border-white/10">
-                          <span className="text-[10px] text-slate-400 uppercase tracking-widest block mb-2 flex items-center gap-1">
-                            <MessageSquare className="w-3 h-3 text-cyan-400" /> RELATED QUESTIONS
-                          </span>
-                          <div className="flex flex-wrap gap-1.5">
-                            {topic.relatedQuestions.map((q) => (
-                              <button
-                                key={q}
-                                onClick={() => handleQuerySubmit(q)}
-                                className="px-2.5 py-1 rounded-lg bg-white/[0.04] hover:bg-white/10 border border-white/10 text-slate-300 hover:text-white text-[11px] transition-all cursor-pointer"
-                              >
-                                &gt; {q}
-                              </button>
                             ))}
                           </div>
-                        </div>
-                      )}
-                    </Card>
-                  </motion.div>
-                );
-              })}
+                        )}
 
-              {isExecuting && (
-                <div className="flex items-center gap-2 text-cyan-400 text-xs font-mono">
-                  <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                  <span>[QUERYING PROJECT CASE STUDY KNOWLEDGE BASE...]</span>
-                </div>
-              )}
+                        {/* Metrics Pills */}
+                        {topic.metrics && topic.metrics.length > 0 && (
+                          <div className="grid grid-cols-2 gap-2 mb-4">
+                            {topic.metrics.map((m) => (
+                              <div key={m.label} className="p-2.5 rounded-xl border border-faint bg-surface text-center">
+                                <span className="text-[10px] text-dim block">{m.label}</span>
+                                <span className="text-xs font-bold text-heading">{m.value}</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
 
-              <div ref={outputEndRef} />
-            </div>
+                        {/* Action Links */}
+                        {(cs?.github || cs?.demo) && (
+                          <div className="flex items-center gap-2 mb-3 pt-2 border-t border-faint">
+                            {cs.github && (
+                              <a
+                                href={cs.github}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="px-3 py-1.5 rounded-lg border border-faint text-sub hover:text-heading text-[11px] font-semibold flex items-center gap-1.5"
+                              >
+                                <GithubIcon className="w-3.5 h-3.5" /> GitHub
+                              </a>
+                            )}
+                            {cs.demo && (
+                              <a
+                                href={cs.demo}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="px-3 py-1.5 rounded-lg text-[11px] font-semibold flex items-center gap-1.5"
+                                style={{
+                                  backgroundColor: meta.accentColor,
+                                  color: "#050813",
+                                }}
+                              >
+                                <span>Live Demo</span>
+                                <ExternalLink className="w-3 h-3" />
+                              </a>
+                            )}
+                          </div>
+                        )}
 
-            {/* Input Prompt Form */}
-            <form onSubmit={(e) => { e.preventDefault(); handleQuerySubmit(cmdInput); }} className="mt-6 pt-4 border-t border-white/10 flex items-center gap-2">
-              <span className="text-cyan-400 font-bold shrink-0">user@kausik-ai:~$</span>
-              <input
-                type="text"
-                value={cmdInput}
-                onChange={(e) => setCmdInput(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="Ask anything (e.g. 'IIT Bhubaneswar', 'How does JanSehat offline mode work?')..."
-                className="flex-1 px-4 py-2.5 rounded-xl bg-slate-950/80 border border-white/15 text-slate-200 text-xs font-mono focus:outline-none focus:border-cyan-500"
-              />
-              <button
-                type="submit"
-                className="px-4 py-2.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40 text-cyan-300 font-mono text-xs flex items-center gap-1.5 cursor-pointer"
-              >
-                <span>ASK AI</span>
-                <CornerDownLeft className="w-3.5 h-3.5" />
-              </button>
-            </form>
-          </div>
+                        {/* Related Question Chips */}
+                        {topic.relatedQuestions && topic.relatedQuestions.length > 0 && (
+                          <div className="pt-3 border-t border-faint">
+                            <span className="text-[10px] text-dim uppercase tracking-wider block mb-2 flex items-center gap-1">
+                              <MessageSquare className="w-3 h-3" style={{ color: meta.accentColor }} />
+                              RELATED INQUIRIES
+                            </span>
+                            <div className="flex flex-wrap gap-1.5">
+                              {topic.relatedQuestions.map((q) => (
+                                <button
+                                  key={q}
+                                  onClick={() => handleQuerySubmit(q)}
+                                  className="px-2.5 py-1 rounded-lg border border-faint text-dim hover:text-heading text-[11px] transition-colors cursor-pointer bg-surface"
+                                >
+                                  &gt; {q}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </motion.div>
+                  );
+                })}
 
-          {/* Right Sidebar: Deep Case Study Inspector */}
-          <div className="lg:col-span-3 bg-black/40 border-l border-white/10 p-5 text-xs flex flex-col justify-between">
-            <div>
-              <span className="text-[10px] text-slate-400 uppercase tracking-widest block mb-4">
-                CASE STUDY INSPECTOR
-              </span>
-
-              <Card className="p-4 bg-slate-950/80 border border-white/10 mb-4" hoverGlow={false}>
-                <span className="text-[10px] text-cyan-400 uppercase block mb-1">PROJECT ARCHITECTURE</span>
-                <h4 className="text-sm font-bold text-white mb-1">{activeCS.title}</h4>
-                <p className="text-[11px] text-slate-400 mb-3">{activeCS.subtitle}</p>
-                <div className="space-y-2 text-[11px] text-slate-300">
-                  <div>
-                    <span className="text-slate-500 block">Metric:</span>
-                    <span className="text-cyan-300 font-bold">{activeCS.metric}</span>
+                {isExecuting && (
+                  <div className="flex items-center gap-2 text-xs font-mono" style={{ color: meta.accentColor }}>
+                    <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                    <span>[QUERYING KNOWLEDGE BASE...]</span>
                   </div>
-                  <div>
-                    <span className="text-slate-500 block">Key Problem:</span>
-                    <span className="text-slate-300 line-clamp-3">{activeCS.problem}</span>
-                  </div>
-                </div>
-              </Card>
+                )}
 
-              {/* Selector Tabs */}
-              <div className="space-y-2">
-                <span className="text-[10px] text-slate-400 uppercase tracking-widest block mb-2">
-                  SELECT CASE STUDY
-                </span>
-                {PROJECT_CASE_STUDIES.map((p, idx) => (
-                  <button
-                    key={p.id}
-                    onClick={() => {
-                      audioSystem.playClick(1000);
-                      setSelectedTopicIdx(idx);
-                    }}
-                    className={`w-full text-left p-2.5 rounded-xl border text-xs font-mono transition-all cursor-pointer ${
-                      selectedTopicIdx === idx
-                        ? "bg-cyan-500/15 border-cyan-500/40 text-cyan-300 font-bold"
-                        : "bg-white/5 border-white/10 text-slate-400 hover:text-white"
-                    }`}
-                  >
-                    {p.title}
-                  </button>
-                ))}
+                <div ref={outputEndRef} />
               </div>
+
+              {/* Input Form */}
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleQuerySubmit(cmdInput);
+                }}
+                className="mt-6 pt-4 border-t border-faint flex items-center gap-2"
+              >
+                <span className="font-bold shrink-0" style={{ color: meta.accentColor }}>
+                  visitor@portfolio:~$
+                </span>
+                <input
+                  type="text"
+                  value={cmdInput}
+                  onChange={(e) => setCmdInput(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  placeholder="Ask anything (e.g. 'SIH 2025', 'How does offline mode work?')..."
+                  className="flex-1 px-3.5 py-2.5 rounded-xl border border-main text-heading text-xs font-mono focus:outline-none bg-raised transition-colors"
+                />
+                <button
+                  type="submit"
+                  className="px-4 py-2.5 rounded-xl text-xs font-mono font-bold flex items-center gap-1.5 cursor-pointer shadow-xs"
+                  style={{
+                    backgroundColor: meta.accentColor,
+                    color: "#050813",
+                  }}
+                >
+                  <span>ASK AI</span>
+                  <CornerDownLeft className="w-3.5 h-3.5" />
+                </button>
+              </form>
             </div>
 
-            <div className="pt-4 border-t border-white/10 text-[11px] text-slate-500 text-center">
-              <span>Bhubaneswar, IN • UTC+5:30</span>
+            {/* Right Sidebar: Case Study Inspector */}
+            <div className="lg:col-span-3 border-l border-faint p-5 text-xs flex flex-col justify-between bg-page">
+              <div>
+                <span className="text-[10px] text-dim uppercase tracking-widest block mb-3 font-semibold">
+                  CASE STUDY INSPECTOR
+                </span>
+
+                <div className="p-4 rounded-2xl border border-faint bg-raised mb-4">
+                  <span className="text-[10px] uppercase block mb-1 font-semibold" style={{ color: meta.accentColor }}>
+                    ARCHITECTURE
+                  </span>
+                  <h4 className="text-sm font-bold text-heading mb-1">{activeCS.title}</h4>
+                  <p className="text-[11px] text-dim mb-3">{activeCS.subtitle}</p>
+                  <div className="space-y-2 text-[11px] text-sub">
+                    <div>
+                      <span className="text-dim block text-[10px]">VERIFIED METRIC:</span>
+                      <span className="font-bold" style={{ color: meta.accentColor }}>
+                        {activeCS.metric}
+                      </span>
+                    </div>
+                    <div>
+                      <span className="text-dim block text-[10px]">PROBLEM SOLVED:</span>
+                      <span className="line-clamp-3">{activeCS.problem}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Case Study Selection Buttons */}
+                <div className="space-y-1.5">
+                  <span className="text-[10px] text-dim uppercase tracking-widest block mb-2 font-semibold">
+                    EXPLORE PROJECTS
+                  </span>
+                  {PROJECT_CASE_STUDIES.map((p, idx) => (
+                    <button
+                      key={p.id}
+                      onClick={() => {
+                        audioSystem.playClick(1000);
+                        setSelectedTopicIdx(idx);
+                      }}
+                      className={`w-full text-left p-2.5 rounded-xl border text-xs font-mono transition-all cursor-pointer ${
+                        selectedTopicIdx === idx
+                          ? "border-main font-bold shadow-xs"
+                          : "border-transparent text-dim hover:text-heading"
+                      }`}
+                      style={{
+                        backgroundColor: selectedTopicIdx === idx ? "var(--c-surface-raised)" : "transparent",
+                        borderColor: selectedTopicIdx === idx ? meta.accentColor : undefined,
+                        color: selectedTopicIdx === idx ? meta.accentColor : undefined,
+                      }}
+                    >
+                      {p.title}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="pt-4 border-t border-faint text-[11px] text-dim text-center">
+                <span>Bhubaneswar, IN • UTC+5:30</span>
+              </div>
             </div>
           </div>
         </div>
-      </Card>
-    </Section>
+      </div>
+    </section>
   );
 }
