@@ -2,9 +2,10 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Sparkles, Terminal } from "lucide-react";
+import { Menu, X, Sparkles, Terminal, Volume2, VolumeX } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
 import ModeSwitcher from "./ModeSwitcher";
+import audioSystem from "@/utils/audioSystem";
 
 const NAV_LINKS = [
   { label: "Work", href: "#work" },
@@ -23,7 +24,12 @@ export default function Navbar({ onOpenAICompanion }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [active, setActive] = useState("");
+  const [isMuted, setIsMuted] = useState(false);
   const { meta } = useTheme();
+
+  useEffect(() => {
+    setIsMuted(audioSystem.getMuted());
+  }, []);
 
   useEffect(() => {
     const onScroll = () => {
@@ -97,9 +103,26 @@ export default function Navbar({ onOpenAICompanion }: NavbarProps) {
             })}
           </div>
 
-          {/* Right Controls: ModeSwitcher + AI Assistant button */}
+          {/* Right Controls: ModeSwitcher + Sound Toggle + AI Assistant button */}
           <div className="flex items-center gap-2">
             <ModeSwitcher />
+
+            <button
+              onClick={() => {
+                const nextMuted = audioSystem.toggleMute();
+                setIsMuted(nextMuted);
+                if (!nextMuted) audioSystem.playSuccess();
+              }}
+              className="p-2 rounded-xl border border-faint text-dim hover:text-heading hover:bg-raised transition-colors cursor-pointer"
+              title={isMuted ? "Unmute audio feedback" : "Mute audio feedback"}
+              aria-label={isMuted ? "Unmute audio" : "Mute audio"}
+            >
+              {isMuted ? (
+                <VolumeX className="w-3.5 h-3.5 text-rose-400" />
+              ) : (
+                <Volume2 className="w-3.5 h-3.5 text-dim hover:text-heading" />
+              )}
+            </button>
 
             {onOpenAICompanion && (
               <button
