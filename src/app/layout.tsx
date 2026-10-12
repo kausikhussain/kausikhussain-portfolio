@@ -21,6 +21,7 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://kausikhussain.vercel.app"),
   title: "Sk Kausik Hussain — Engineer, Explorer, Builder",
   description:
     "Full-stack engineer building AI-powered platforms, real-time collaborative systems, and interactive 3D web experiences. Smart India Hackathon 2025 Finalist.",
@@ -36,13 +37,51 @@ export const metadata: Metadata = {
     "WebRTC",
     "Socket.IO",
   ],
-  authors: [{ name: "Sk Kausik Hussain" }],
+  authors: [{ name: "Sk Kausik Hussain", url: "https://github.com/kausikhussain" }],
+  creator: "Sk Kausik Hussain",
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: "Sk Kausik Hussain — Engineer, Explorer, Builder",
     description:
       "Full-stack engineer building AI-powered platforms, real-time systems, and interactive 3D experiences.",
+    url: "https://kausikhussain.vercel.app",
+    siteName: "Sk Kausik Hussain Portfolio",
+    locale: "en_US",
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sk Kausik Hussain — Engineer, Explorer, Builder",
+    description:
+      "Full-stack engineer building AI platforms, real-time sync meshes, and interactive 3D web experiences.",
+  },
+};
+
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Sk Kausik Hussain",
+  alternateName: "Kausik Hussain",
+  url: "https://kausikhussain.vercel.app",
+  jobTitle: "Software Engineer & AI Developer",
+  description:
+    "Full-stack engineer building AI-powered platforms, real-time collaborative systems, and interactive 3D web experiences.",
+  sameAs: [
+    "https://github.com/kausikhussain",
+    "https://linkedin.com/in/kausikhussain",
+  ],
+  knowsAbout: [
+    "Artificial Intelligence",
+    "Machine Learning",
+    "Full-Stack Web Development",
+    "Three.js & WebGL",
+    "React & Next.js",
+    "WebRTC & Low-Bandwidth Streaming",
+    "Socket.IO Real-Time Meshes",
+  ],
+  award: "Smart India Hackathon 2025 National Finalist",
 };
 
 export default function RootLayout({
@@ -55,6 +94,13 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
+        {/* Structured JSON-LD Schema */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(personJsonLd),
+          }}
+        />
         {/* Blocking script: apply saved theme before first paint to prevent flash */}
         <script
           dangerouslySetInnerHTML={{
