@@ -396,5 +396,78 @@ export const KAUSIK_KNOWLEDGE_BASE: KnowledgeTopic[] = [
       "Show all projects",
       "Tell me about SIH 2025"
     ]
+  },
+
+  // 16. WebRTC Architecture & Dynamic Fallback
+  {
+    id: "webrtc_architecture",
+    keys: ["webrtc", "video", "media", "peer", "bitrate", "network", "bandwidth", "low bandwidth", "2g", "3g"],
+    title: "WebRTC Low-Bandwidth Streaming & Fallback Architecture",
+    category: "skills",
+    summary: "Engineered multi-tier WebRTC dynamic bitrate negotiation tailored for degraded rural network conditions.",
+    details: [
+      "Dynamic Bitrate Adaptation: Continuously inspects round-trip packet loss and throttles video bitrate from 1080p down to 240p.",
+      "Graceful Fallback Mode: Drops video track seamlessly into low-bitrate Opus audio under severe jitter, buffering packets locally.",
+      "Signaling Protocol: Custom Socket.IO room namespaces handling ICE candidates and SDP offer/answer exchanges in <150ms."
+    ],
+    metrics: [
+      { label: "Fallback Latency", value: "<150ms" },
+      { label: "Target Bandwidth", value: "2G/3G Resilient" }
+    ],
+    tags: ["WebRTC", "Peer-to-Peer", "Dynamic Bitrate", "Media Fallback", "Socket.IO"],
+    relatedQuestions: [
+      "Tell me about JanSehat",
+      "How does offline mode work?",
+      "Show real-time Socket.IO experience"
+    ]
+  },
+
+  // 17. Real-Time Concurrency & WebSocket Meshes
+  {
+    id: "realtime_concurrency",
+    keys: ["socket.io", "websocket", "real-time", "concurrency", "sync", "race condition", "optimistic"],
+    title: "Real-Time Concurrency & Optimistic State Reconciliation",
+    category: "skills",
+    summary: "Architecting sub-200ms WebSocket synchronization meshes across multi-user collaborative applications.",
+    details: [
+      "Optimistic Mutations: UI state mutates locally in <10ms while the Socket.IO mesh broadcasts deltas to room peers.",
+      "Conflict Resolution: Uses payload timestamps and deterministic LWW (Last-Write-Wins) reconciliations to prevent state drift.",
+      "Room Partitioning: Isolates collaborative workspaces into ephemeral socket channels to minimize memory overhead."
+    ],
+    metrics: [
+      { label: "Sync Speed", value: "<200ms" },
+      { label: "Local UI Render", value: "<10ms" }
+    ],
+    tags: ["Socket.IO", "WebSockets", "Optimistic UI", "State Reconciliation"],
+    relatedQuestions: [
+      "Tell me about TripSync",
+      "Explain backend architecture",
+      "What is your full-stack tech stack?"
+    ]
+  },
+
+  // 18. Spatial 3D WebGL & GPU Optimization
+  {
+    id: "webgl_threejs",
+    keys: ["three.js", "webgl", "r3f", "3d", "shaders", "gpu", "fps", "performance", "motion"],
+    title: "Spatial 3D WebGL & GPU Frame Rate Engineering",
+    category: "skills",
+    summary: "Building immersive 60 FPS Three.js / React Three Fiber interactive experiences with battery-conscious lifecycles.",
+    details: [
+      "Physical Glass Transmission: Real-time MeshPhysicalMaterial shaders simulating thickness, roughness, and chromatic refractions.",
+      "Lifecycle Visibility Optimization: IntersectionObserver automatically halts the render loop when canvases scroll off-screen.",
+      "Reduced-Motion Safeguards: Strict prefers-reduced-motion media query detection with instant SVG geometric fallbacks."
+    ],
+    metrics: [
+      { label: "Frame Rate", value: "60 FPS Target" },
+      { label: "Engine", value: "Three.js / R3F" }
+    ],
+    tags: ["Three.js", "React Three Fiber", "GLSL Shaders", "60 FPS", "WebGL"],
+    relatedQuestions: [
+      "Show 3D Web theme features",
+      "Explain the 3D sculpture architecture",
+      "What frontend libraries do you use?"
+    ]
   }
 ];
+
