@@ -210,23 +210,44 @@ class AISemanticEngine {
       };
     }
 
-    // 3. Fallback to General Knowledge Base
+    // 3. Fallback to General Knowledge Base with Multi-Token Scoring
     let bestTopic: KnowledgeTopic = KAUSIK_KNOWLEDGE_BASE[0];
     let highestScore = 0;
+    const queryTokens = q.split(/\s+/).filter((t) => t.length > 2);
 
     for (const topic of KAUSIK_KNOWLEDGE_BASE) {
+      let topicScore = 0;
+
       for (const key of topic.keys) {
-        if (q.includes(key) || key.includes(q) || this.levenshtein(q, key) <= 2) {
-          highestScore = 0.85;
-          bestTopic = topic;
-          break;
+        if (q === key) {
+          topicScore = Math.max(topicScore, 0.98);
+        } else if (q.includes(key) || key.includes(q)) {
+          topicScore = Math.max(topicScore, 0.88);
+        } else if (this.levenshtein(q, key) <= 2) {
+          topicScore = Math.max(topicScore, 0.82);
         }
+
+        // Token intersection boost
+        for (const token of queryTokens) {
+          if (key.includes(token)) {
+            topicScore += 0.25;
+          }
+        }
+      }
+
+      if (topicScore > highestScore) {
+        highestScore = topicScore;
+        bestTopic = topic;
       }
     }
 
     return {
       matchedTopic: bestTopic,
-      confidenceScore: highestScore > 0 ? highestScore : 0.4
+      confidenceScore: highestScore > 0 ? Math.min(highestScore, 0.95) : 0.45,
+      conversationalNote:
+        highestScore > 0.6
+          ? `Grounded result from verified portfolio domain (${bestTopic.category.toUpperCase()}):`
+          : undefined,
     };
   }
 }
