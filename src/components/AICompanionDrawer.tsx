@@ -13,6 +13,8 @@ import {
   Award,
   ArrowRight,
   MessageSquare,
+  Copy,
+  Check,
 } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
 import aiSemanticEngine, { SemanticResponse } from "@/utils/aiSemanticEngine";
@@ -35,6 +37,7 @@ interface AICompanionDrawerProps {
 export default function AICompanionDrawer({ isOpen, onClose }: AICompanionDrawerProps) {
   const { meta } = useTheme();
   const [input, setInput] = useState("");
+  const [copiedId, setCopiedId] = useState<string | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: "welcome",
@@ -107,6 +110,15 @@ export default function AICompanionDrawer({ isOpen, onClose }: AICompanionDrawer
         timestamp: "Just now",
       },
     ]);
+  };
+
+  const handleCopy = (id: string, text: string) => {
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      navigator.clipboard.writeText(text);
+      setCopiedId(id);
+      audioSystem.playTone(880, "sine", 0.08);
+      setTimeout(() => setCopiedId(null), 2000);
+    }
   };
 
   return (
@@ -241,6 +253,30 @@ export default function AICompanionDrawer({ isOpen, onClose }: AICompanionDrawer
                         color: isAssistant ? undefined : "#050813",
                       }}
                     >
+                      {isAssistant && (
+                        <div className="flex items-center justify-between pb-2 mb-2 border-b border-faint">
+                          <span className="text-[10px] font-mono text-dim uppercase tracking-wider">
+                            Verified Response
+                          </span>
+                          <button
+                            onClick={() => handleCopy(m.id, m.text)}
+                            className="inline-flex items-center gap-1 text-[10px] font-mono text-dim hover:text-heading px-1.5 py-0.5 rounded border border-faint hover:border-main bg-page transition-colors cursor-pointer"
+                            title="Copy response"
+                          >
+                            {copiedId === m.id ? (
+                              <>
+                                <Check className="w-3 h-3 text-emerald-400" />
+                                <span className="text-emerald-400">Copied</span>
+                              </>
+                            ) : (
+                              <>
+                                <Copy className="w-3 h-3" />
+                                <span>Copy</span>
+                              </>
+                            )}
+                          </button>
+                        </div>
+                      )}
                       <p className="font-sans leading-relaxed">{m.text}</p>
 
                       {/* Topic Highlights if matched */}

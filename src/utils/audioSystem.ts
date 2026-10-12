@@ -59,9 +59,18 @@ class AudioSystem {
     this.playClick(1200, "sine", 0.015);
   }
 
+  public playTone(freq = 880, type: OscillatorType = "sine", duration = 0.08) {
+    this.playClick(freq, type, duration);
+  }
+
   public playModeSwitch() {
     this.playClick(600, "triangle", 0.04);
     setTimeout(() => this.playClick(900, "sine", 0.04), 40);
+  }
+
+  public playSuccess() {
+    this.playClick(587, "sine", 0.05);
+    setTimeout(() => this.playClick(880, "sine", 0.08), 50);
   }
 }
 
