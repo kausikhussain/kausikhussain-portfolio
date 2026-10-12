@@ -2,13 +2,20 @@
 
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { User, Brain, Cpu, Code2, Sparkles, GitCommit, ArrowUpRight } from "lucide-react";
+import {
+  GraduationCap,
+  Award,
+  GitCommit,
+  ArrowUpRight,
+  FileText,
+  BadgeCheck,
+  MapPin,
+  Calendar,
+} from "lucide-react";
 import { PORTFOLIO_DATA } from "@/data/portfolioData";
 import GitHubContributionGraph from "./GitHubContributionGraph";
-import Section from "./ui/Section";
-import Heading from "./ui/Heading";
-import Card from "./ui/Card";
-import Tag from "./ui/Tag";
+
+const ease = [0.16, 1, 0.3, 1] as const;
 
 interface GitHubStats {
   public_repos: number;
@@ -17,7 +24,11 @@ interface GitHubStats {
 }
 
 export default function AboutSection() {
-  const [ghStats, setGhStats] = useState<GitHubStats>({ public_repos: 12, followers: 8, following: 10 });
+  const [ghStats, setGhStats] = useState<GitHubStats>({
+    public_repos: 12,
+    followers: 8,
+    following: 10,
+  });
 
   useEffect(() => {
     async function fetchStats() {
@@ -28,7 +39,7 @@ export default function AboutSection() {
           setGhStats({
             public_repos: data.public_repos || 12,
             followers: data.followers || 8,
-            following: data.following || 10
+            following: data.following || 10,
           });
         }
       } catch {
@@ -39,151 +50,268 @@ export default function AboutSection() {
   }, []);
 
   return (
-    <Section id="about" withGrid={true}>
-      {/* Section Header */}
-      <Heading
-        badge="01 / ABOUT"
-        badgeIcon={<User className="w-3.5 h-3.5" />}
-        title="Building at the intersection of"
-        gradientText="AI, design & full-stack code"
-        align="left"
-      />
+    <section id="about" className="py-24 sm:py-32 border-t border-main">
+      <div className="section-container">
+        {/* Section Header */}
+        <div className="max-w-2xl mb-16">
+          <div className="inline-flex items-center gap-2 chip mb-4">
+            <span
+              className="w-1.5 h-1.5 rounded-full"
+              style={{ backgroundColor: "var(--c-blue)" }}
+            />
+            <span>04 / BACKGROUND & TRACK RECORD</span>
+          </div>
+          <h2 className="text-3xl sm:text-5xl font-display font-bold tracking-tight text-heading">
+            Engineer. Explorer. Builder.
+          </h2>
+          <p className="text-sub text-base sm:text-lg mt-3">
+            Computer Science and Engineering student at Silicon Institute of Technology, specializing in AI architectures, real-time sync meshes, and interactive 3D web systems.
+          </p>
+        </div>
 
-      {/* 2-Column Grid Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-        {/* Left Column: Kausik's Story Bio & Profile */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          className="lg:col-span-6 space-y-6"
-        >
-          {/* Bio Card */}
-          <Card hoverGlow={true}>
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-white/[0.05] border border-white/[0.1] flex items-center justify-center text-slate-300">
-                  <Brain className="w-5 h-5" />
-                </div>
+        {/* 2-Column Editorial Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+          {/* Left Column: Narrative & Stats */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.6, ease }}
+            className="lg:col-span-6 space-y-6"
+          >
+            {/* Bio Card */}
+            <div className="rounded-2xl p-6 sm:p-8 card-base">
+              <div className="flex items-center justify-between gap-4 mb-6">
                 <div>
-                  <h3 className="text-base font-bold text-white">{PORTFOLIO_DATA.personal.name}</h3>
-                  <p className="text-xs font-mono text-slate-400">SIH 2025 Finalist • CSE @ Silicon Institute</p>
+                  <h3 className="text-xl font-display font-bold text-heading">
+                    {PORTFOLIO_DATA.personal.name}
+                  </h3>
+                  <p className="text-xs font-mono text-dim mt-0.5">
+                    CSE Undergraduate · Odisha, India
+                  </p>
+                </div>
+                <span
+                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-medium"
+                  style={{
+                    backgroundColor: "rgba(16, 185, 129, 0.1)",
+                    color: "#059669",
+                    border: "1px solid rgba(16, 185, 129, 0.2)",
+                  }}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  Open to Opportunities
+                </span>
+              </div>
+
+              <div className="space-y-4 text-sm text-sub leading-relaxed mb-8">
+                <p>
+                  I bridge the gap between algorithmic intelligence and high-performance interactive interfaces. My work revolves around building real-time systems that stay resilient under unstable network conditions, designing fluid WebGL experiences, and architecting full-stack web platforms.
+                </p>
+                <p>
+                  As a <strong>Smart India Hackathon 2025 National Finalist</strong>, I engineered JanSehat—a telemedicine PWA with WebRTC video fallback and local symptom intelligence. I thrive in high-pressure hackathon sprints and disciplined engineering iterations alike.
+                </p>
+              </div>
+
+              {/* Key Metrics Row */}
+              <div className="grid grid-cols-3 gap-3 pt-6 border-t border-faint">
+                <div className="p-3.5 rounded-xl border border-faint bg-raised text-center">
+                  <span className="text-xl font-display font-bold text-heading block">
+                    8.75
+                  </span>
+                  <span className="text-[10px] font-mono text-dim uppercase">
+                    B.Tech CGPA
+                  </span>
+                </div>
+                <div className="p-3.5 rounded-xl border border-faint bg-raised text-center">
+                  <span className="text-xl font-display font-bold text-heading block">
+                    SIH '25
+                  </span>
+                  <span className="text-[10px] font-mono text-dim uppercase">
+                    National Finalist
+                  </span>
+                </div>
+                <div className="p-3.5 rounded-xl border border-faint bg-raised text-center">
+                  <span className="text-xl font-display font-bold text-heading block">
+                    &lt;200ms
+                  </span>
+                  <span className="text-[10px] font-mono text-dim uppercase">
+                    Sync Latency
+                  </span>
                 </div>
               </div>
-              <Tag label="Open to Roles" variant="glow" size="sm" />
-            </div>
 
-            <div className="space-y-4 text-slate-300 text-sm leading-relaxed mb-8">
-              {PORTFOLIO_DATA.personal.bio.map((paragraph, idx) => (
-                <p key={idx}>{paragraph}</p>
-              ))}
-            </div>
-
-            {/* Core Philosophy Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-white/[0.08]">
-              <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.05]">
-                <Cpu className="w-4 h-4 text-slate-300 mb-2" />
-                <h4 className="text-xs font-bold text-white mb-1">AI Architecture</h4>
-                <p className="text-[11px] text-slate-400 leading-snug">Integrating ML models into production web apps.</p>
-              </div>
-              <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.05]">
-                <Code2 className="w-4 h-4 text-slate-300 mb-2" />
-                <h4 className="text-xs font-bold text-white mb-1">Real-Time Sync</h4>
-                <p className="text-[11px] text-slate-400 leading-snug">Sub-200ms WebRTC & Socket.IO synchronization.</p>
-              </div>
-              <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.05]">
-                <Sparkles className="w-4 h-4 text-slate-300 mb-2" />
-                <h4 className="text-xs font-bold text-white mb-1">Motion Design</h4>
-                <p className="text-[11px] text-slate-400 leading-snug">Smooth, purposeful Framer Motion & Three.js scenes.</p>
+              {/* Resume Download CTA */}
+              <div className="mt-6 pt-6 border-t border-faint flex flex-wrap items-center justify-between gap-4">
+                <span className="text-xs text-sub font-mono">
+                  Looking for detailed work history?
+                </span>
+                <a
+                  href={PORTFOLIO_DATA.personal.resumeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold border border-main text-heading hover:bg-raised transition-colors"
+                >
+                  <FileText className="w-3.5 h-3.5" />
+                  Download Resume (PDF)
+                </a>
               </div>
             </div>
-          </Card>
-        </motion.div>
 
-        {/* Right Column: Dynamic Cards Grid */}
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          className="lg:col-span-6 space-y-6"
-        >
-          {/* 1. Currently Exploring Card */}
-          <Card hoverGlow={true}>
-            <div className="flex items-center gap-2 mb-4">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <h3 className="text-xs font-mono uppercase tracking-widest text-slate-400">CURRENTLY EXPLORING</h3>
-            </div>
-
-            <div className="flex flex-wrap gap-2">
-              {PORTFOLIO_DATA.currentlyExploring.map((topic, i) => (
-                <Tag key={i} label={topic} variant="mono" size="sm" />
-              ))}
-            </div>
-          </Card>
-
-          {/* 2. Currently Building Card */}
-          <Card hoverGlow={true}>
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse" />
-                <h3 className="text-xs font-mono uppercase tracking-widest text-slate-400">CURRENTLY BUILDING</h3>
-              </div>
-              <Tag label={PORTFOLIO_DATA.currentlyBuilding.statusLabel} variant="glow" size="sm" />
-            </div>
-
-            <h4 className="text-base font-bold text-white group-hover:text-indigo-300 transition-colors mb-2">
-              {PORTFOLIO_DATA.currentlyBuilding.title}
-            </h4>
-            <p className="text-xs text-slate-300 leading-relaxed mb-4">
-              {PORTFOLIO_DATA.currentlyBuilding.desc}
-            </p>
-
-            <div className="flex flex-wrap gap-2">
-              {PORTFOLIO_DATA.currentlyBuilding.tags.map((tag, i) => (
-                <Tag key={i} label={tag} variant="default" size="sm" />
-              ))}
-            </div>
-          </Card>
-
-          {/* 3. GitHub Telemetry Stats Card */}
-          <Card hoverGlow={true}>
-            <div className="flex items-center justify-between mb-4 pb-3 border-b border-white/[0.08]">
-              <div className="flex items-center gap-2">
-                <GitCommit className="w-4 h-4 text-slate-400" />
-                <h4 className="text-xs font-mono uppercase tracking-widest text-slate-400">GITHUB TELEMETRY</h4>
-              </div>
-              <a
-                href={PORTFOLIO_DATA.personal.contact.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-xs font-mono text-slate-300 hover:text-white flex items-center gap-1"
-              >
-                <span>@kausikhussain</span>
-                <ArrowUpRight className="w-3.5 h-3.5" />
-              </a>
-            </div>
-
-            <div className="grid grid-cols-3 gap-4 text-center py-2">
-              <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.05]">
-                <span className="text-xl font-extrabold text-white block">{ghStats.public_repos}</span>
-                <span className="text-[10px] font-mono text-slate-400 uppercase">Repositories</span>
-              </div>
-              <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.05]">
-                <span className="text-xl font-extrabold text-slate-200 block">{ghStats.followers}</span>
-                <span className="text-[10px] font-mono text-slate-400 uppercase">Followers</span>
-              </div>
-              <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.05]">
-                <span className="text-xl font-extrabold text-slate-200 block">{ghStats.following}</span>
-                <span className="text-[10px] font-mono text-slate-400 uppercase">Following</span>
+            {/* Certifications Card */}
+            <div className="rounded-2xl p-6 sm:p-7 card-base">
+              <h4 className="text-xs font-mono uppercase tracking-wider text-dim flex items-center gap-2 mb-4">
+                <BadgeCheck className="w-4 h-4 text-link" />
+                VERIFIED CERTIFICATIONS
+              </h4>
+              <div className="space-y-3">
+                {PORTFOLIO_DATA.certifications.map((cert) => (
+                  <div
+                    key={cert.name}
+                    className="flex items-center justify-between gap-4 p-3 rounded-xl border border-faint bg-raised text-xs"
+                  >
+                    <div>
+                      <span className="font-semibold text-heading block">
+                        {cert.name}
+                      </span>
+                      <span className="text-dim text-[11px] font-mono">
+                        {cert.issuer}
+                      </span>
+                    </div>
+                    <span className="font-mono text-dim text-[11px] shrink-0">
+                      {cert.date}
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
-          </Card>
+          </motion.div>
 
-          {/* 4. Contribution Activity Graph */}
-          <GitHubContributionGraph />
+          {/* Right Column: Education Timeline & GitHub Activity */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.6, ease, delay: 0.1 }}
+            className="lg:col-span-6 space-y-6"
+          >
+            {/* Education & Hackathons Timeline */}
+            <div className="rounded-2xl p-6 sm:p-8 card-base">
+              <div className="flex items-center gap-2 mb-6">
+                <GraduationCap className="w-4 h-4 text-link" />
+                <h4 className="text-xs font-mono uppercase tracking-wider text-dim">
+                  EDUCATION & MILESTONES
+                </h4>
+              </div>
 
-        </motion.div>
+              <div className="space-y-6 relative before:absolute before:left-2 before:top-2 before:bottom-2 before:w-px before:bg-[var(--c-border)]">
+                {/* College */}
+                <div className="pl-6 relative">
+                  <span className="absolute left-[5px] top-1.5 w-2 h-2 rounded-full bg-link -translate-x-1/2" />
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <h5 className="text-sm font-display font-bold text-heading">
+                      Silicon Institute of Technology
+                    </h5>
+                    <span className="text-xs font-mono text-dim">2023–2027</span>
+                  </div>
+                  <p className="text-xs text-sub mb-1">
+                    B.Tech in Computer Science & Engineering ·{" "}
+                    <span className="font-semibold text-heading">CGPA: 8.75</span>
+                  </p>
+                  <p className="text-xs text-dim">
+                    Specializing in AI/ML, Full-Stack Architecture, and 3D Web Systems.
+                  </p>
+                </div>
+
+                {/* SIH 2025 */}
+                <div className="pl-6 relative">
+                  <span
+                    className="absolute left-[5px] top-1.5 w-2 h-2 rounded-full -translate-x-1/2"
+                    style={{ backgroundColor: "#D97706" }}
+                  />
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <h5 className="text-sm font-display font-bold text-heading flex items-center gap-1.5">
+                      <Award className="w-3.5 h-3.5 text-amber-500" />
+                      Smart India Hackathon 2025
+                    </h5>
+                    <span className="text-xs font-mono text-amber-600 dark:text-amber-400 font-semibold">
+                      National Finalist
+                    </span>
+                  </div>
+                  <p className="text-xs text-sub">
+                    Selected for JanSehat telemedicine PWA built for low-bandwidth 2G/3G health delivery.
+                  </p>
+                </div>
+
+                {/* IIT Hackathon */}
+                <div className="pl-6 relative">
+                  <span className="absolute left-[5px] top-1.5 w-2 h-2 rounded-full bg-link -translate-x-1/2" />
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <h5 className="text-sm font-display font-bold text-heading">
+                      IIT Bhubaneswar Hackathon 2025
+                    </h5>
+                    <span className="text-xs font-mono text-dim">2025</span>
+                  </div>
+                  <p className="text-xs text-sub">
+                    Shipped EduNexus full-stack platform in 24 hours with modular quiz engine and course registration.
+                  </p>
+                </div>
+
+                {/* Class XII */}
+                <div className="pl-6 relative">
+                  <span className="absolute left-[5px] top-1.5 w-1.5 h-1.5 rounded-full bg-dim -translate-x-1/2" />
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <h5 className="text-xs font-semibold text-heading">
+                      Apex Senior Secondary School (Class XII)
+                    </h5>
+                    <span className="text-xs font-mono text-dim">2023</span>
+                  </div>
+                  <p className="text-xs text-dim">
+                    Physics, Chemistry & Mathematics Focus · Score: 67%
+                  </p>
+                </div>
+
+                {/* Class X */}
+                <div className="pl-6 relative">
+                  <span className="absolute left-[5px] top-1.5 w-1.5 h-1.5 rounded-full bg-dim -translate-x-1/2" />
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <h5 className="text-xs font-semibold text-heading">
+                      Gurukul Public School (Class X)
+                    </h5>
+                    <span className="text-xs font-mono text-dim">2021</span>
+                  </div>
+                  <p className="text-xs text-dim">
+                    Secondary Education Distinction · Score: 81%
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* GitHub Telemetry Card & Contribution Graph */}
+            <div className="space-y-4">
+              <div className="rounded-2xl p-5 card-base flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <GitCommit className="w-4 h-4 text-dim" />
+                  <span className="text-xs font-mono uppercase tracking-wider text-dim">
+                    GITHUB REPOSITORIES
+                  </span>
+                </div>
+                <a
+                  href={PORTFOLIO_DATA.personal.contact.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs font-mono text-link hover:underline flex items-center gap-1"
+                >
+                  <span>@kausikhussain</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </a>
+              </div>
+
+              {/* GitHub Contribution Graph */}
+              <GitHubContributionGraph />
+            </div>
+          </motion.div>
+        </div>
       </div>
-    </Section>
+    </section>
   );
 }
