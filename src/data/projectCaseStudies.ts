@@ -284,5 +284,60 @@ export const PROJECT_CASE_STUDIES: DeepProjectCaseStudy[] = [
       "Tell me about TripSync",
       "What are your backend skills?"
     ]
+  },
+
+  {
+    id: "portfolio-3d",
+    keys: ["portfolio", "3d web", "three.js", "threejs", "webgl", "mobius", "quantum", "persona", "creative studio", "r3f", "shaders"],
+    title: "Quantum Möbius Chronos — Interactive 3D Web & Multi-Persona Experience",
+    subtitle: "Custom WebGL Parametric Sculpture & Grounded Vector Intelligence",
+    category: "Creative 3D Web & AI",
+    metric: "60 FPS Three.js Loop • Sub-10ms Local Semantic Retrieval",
+    period: "2025 – 2026",
+    motivation: "Standard developer portfolios are interchangeable flat templates with minimal interactivity, failing to showcase depth in graphics engineering or creative systems thinking.",
+    problem: "Real-time 3D web applications often suffer from high GPU thermals, frame jitter on mobile screens, and memory leaks during page navigation.",
+    targetUsers: "Tech recruiters, creative directors, engineering leads, and WebGL enthusiasts.",
+    features: [
+      "Dual continuous parametric Möbius strip ribbons with dynamic curvature twisting and counter-rotational harmonics.",
+      "Three distinct profession personas (AI/ML Lab, 3D Web Studio, Full-Stack Terminal) with dynamic CSS theme palettes.",
+      "In-browser semantic Q&A engine with verified project data grounding and zero server latency.",
+      "IntersectionObserver frameloop throttling rendering only when canvas is in active viewport."
+    ],
+    architecture: {
+      frontend: ["Next.js 16 (Turbopack)", "React 19", "Three.js", "@react-three/fiber", "Framer Motion"],
+      backend: ["Static Edge Hosting (Vercel)", "Local Semantic Search Index"],
+      database: ["In-Memory Knowledge Graph Vector Store"],
+      protocols: ["Client-Side Canvas Rendering", "Web Audio API Synthesizer"]
+    },
+    engineeringDecisions: [
+      "Built custom parametric UV equations for the Möbius ribbons instead of importing bulky 20MB GLTF meshes, reducing initial payload from megabytes to mere kilobytes.",
+      "Throttled Three.js frameloop to 'never' when scrolled off-screen via IntersectionObserver, saving mobile battery and eliminating background GPU cycles."
+    ],
+    challengesAndSolutions: [
+      {
+        challenge: "Rendering translucent refraction and metallic iridescent sheen across complex Möbius geometry without tanking 60 FPS frame rates.",
+        solution: "Configured MeshPhysicalMaterial with optimized roughness (0.12), transmission (0.55), and ior (1.52) combined with targeted directional rim lights rather than expensive full-scene raymarching."
+      },
+      {
+        challenge: "Preventing mobile touch scrolling from causing jarring 3D rotation jitter.",
+        solution: "Separated pointer event tracking with normalized client bounding coordinates and applied exponential dampening (lerp factor 0.04) in useFrame."
+      }
+    ],
+    learnings: [
+      "Procedural parametric geometry generated in code is exponentially lighter and more interactive than static pre-baked 3D models.",
+      "Grounded client-side semantic retrieval provides immediate, accurate answers without recurring server costs or latency spikes."
+    ],
+    futureRoadmap: [
+      "Add interactive WebGL shader audio-reactivity matching synthesized synth tones.",
+      "Expand persona system with customizable GLSL fragment shaders."
+    ],
+    github: "https://github.com/kausikhussain/kausikhussain-portfolio",
+    demo: "https://kausikhussain.vercel.app",
+    relatedQuestions: [
+      "How was the 3D Mobius sculpture built?",
+      "How does the AI Companion work?",
+      "What is your 3D Web experience?",
+      "Tell me about the 3 personas"
+    ]
   }
 ];
