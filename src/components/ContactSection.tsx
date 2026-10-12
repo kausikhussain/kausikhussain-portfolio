@@ -6,8 +6,16 @@ import { Mail, Copy, Check, MapPin, ArrowRight, ExternalLink, Send } from "lucid
 import { PORTFOLIO_DATA } from "@/data/portfolioData";
 import { GithubIcon, LinkedinIcon } from "./SocialIcons";
 import { useToast } from "./ToastSystem";
+import audioSystem from "@/utils/audioSystem";
 
 const ease = [0.16, 1, 0.3, 1] as const;
+
+const SUBJECT_PRESETS = [
+  "Full-Time Role",
+  "Hackathon Collaboration",
+  "Technical Project Contract",
+  "Open Source Inquiry",
+];
 
 export default function ContactSection() {
   const [copied, setCopied] = useState(false);
@@ -18,6 +26,7 @@ export default function ContactSection() {
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(PORTFOLIO_DATA.personal.contact.email);
     setCopied(true);
+    audioSystem.playSuccess();
     showToast("Email address copied to clipboard!", "success");
     setTimeout(() => setCopied(false), 2200);
   };
@@ -252,6 +261,23 @@ export default function ContactSection() {
                       className="w-full px-3.5 py-2.5 rounded-xl border border-main text-heading text-sm focus:outline-none transition-colors"
                       style={{ backgroundColor: "var(--c-surface-raised)" }}
                     />
+                    <div className="flex flex-wrap items-center gap-1.5 mt-2">
+                      <span className="text-[10px] font-mono text-dim mr-1">Preset:</span>
+                      {SUBJECT_PRESETS.map((preset) => (
+                        <button
+                          key={preset}
+                          type="button"
+                          onClick={() => {
+                            setFormData((prev) => ({ ...prev, subject: preset }));
+                            audioSystem.playClick(1050, "sine", 0.02);
+                          }}
+                          className="text-[10px] font-mono px-2 py-0.5 rounded border border-faint text-sub hover:text-heading hover:border-[var(--c-text-2)] transition-colors cursor-pointer"
+                          style={{ backgroundColor: "var(--c-surface)" }}
+                        >
+                          + {preset}
+                        </button>
+                      ))}
+                    </div>
                   </div>
 
                   <div>
